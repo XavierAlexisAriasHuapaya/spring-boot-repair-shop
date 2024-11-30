@@ -1,0 +1,15 @@
+spring:
+  application:
+    name: app-repair-shop
+  datasource:
+    url: jdbc:postgresql://localhost/db-repair-shop
+    username: postgres
+    password: 123
+  jpa:
+    hibernate:
+      ddl-auto: create
+
+server:
+  servlet:
+    context-path: /api/repair-shop
+  port: 8080
