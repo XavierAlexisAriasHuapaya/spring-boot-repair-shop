@@ -19,7 +19,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "inbounds")
+@Table(name = "outbounds")
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
