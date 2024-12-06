@@ -44,10 +44,6 @@ public class UserEntity {
     @Column(unique = true)
     private String email;
 
-    private String name;
-
-    private String lastName;
-
     @JoinColumn(name = "rolId")
     @ManyToOne
     private RolEntity rol;
