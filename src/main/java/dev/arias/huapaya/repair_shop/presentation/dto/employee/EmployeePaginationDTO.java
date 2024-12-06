@@ -3,7 +3,6 @@ package dev.arias.huapaya.repair_shop.presentation.dto.employee;
 import java.time.LocalDateTime;
 
 import dev.arias.huapaya.repair_shop.persistence.entity.EmployeeEntity;
-import dev.arias.huapaya.repair_shop.persistence.entity.StoreEntity;
 import dev.arias.huapaya.repair_shop.presentation.dto.user.UserFindOneDTO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

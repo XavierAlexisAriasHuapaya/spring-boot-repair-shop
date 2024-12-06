@@ -15,7 +15,6 @@ import dev.arias.huapaya.repair_shop.presentation.dto.employee.EmployeeFindOneDT
 import dev.arias.huapaya.repair_shop.presentation.dto.employee.EmployeePaginationDTO;
 import dev.arias.huapaya.repair_shop.presentation.dto.employee.EmployeeUpdateDTO;
 import dev.arias.huapaya.repair_shop.presentation.dto.main.PageDTO;
-import dev.arias.huapaya.repair_shop.presentation.dto.store.StorePaginationDTO;
 import dev.arias.huapaya.repair_shop.presentation.dto.user.UserFindOneDTO;
 import dev.arias.huapaya.repair_shop.service.interfaces.EmployeeService;
 import lombok.AllArgsConstructor;
@@ -33,6 +32,7 @@ public class EmployeeImplementation implements EmployeeService {
                 .password(data.getUser().getPassword())
                 .email(data.getUser().getEmail())
                 .rol(data.getUser().getRol())
+                .userStore(data.getUser().getUserStore())
                 .build();
         EmployeeEntity employeeCreate = EmployeeEntity.builder()
                 .user(userCreate)
@@ -54,6 +54,7 @@ public class EmployeeImplementation implements EmployeeService {
                 .password(data.getUser().getPassword())
                 .email(data.getUser().getEmail())
                 .rol(data.getUser().getRol())
+                .userStore(data.getUser().getUserStore())
                 .build();
         findUpdate.setUser(userUpdate);
         findUpdate.setIdentityNumber(data.getIdentityNumber());
