@@ -34,7 +34,7 @@ public class DocumentEntity {
 
     private LocalDateTime updatedAt;
 
-    private boolean status;
+    private Boolean status;
 
     @PrePersist
     private void prePersist() {
