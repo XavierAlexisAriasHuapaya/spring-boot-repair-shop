@@ -1,11 +1,16 @@
 package dev.arias.huapaya.repair_shop.persistence.entity;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
@@ -29,6 +34,10 @@ public class DocumentEntity {
     private String name;
 
     private String abbreviation;
+
+    @OneToMany(cascade = { CascadeType.MERGE, CascadeType.PERSIST }, fetch = FetchType.EAGER)
+    @JoinColumn(name = "documentId", nullable = true)
+    private List<DocumentStoreEntity> documentStore;
 
     private LocalDateTime createdAt;
 
