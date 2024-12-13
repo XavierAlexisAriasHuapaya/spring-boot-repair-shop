@@ -44,6 +44,8 @@ public class DocumentImplementation implements DocumentService {
                 .name(document.getName())
                 .abbreviation(document.getAbbreviation())
                 .documentStore(documentStoreEntities)
+                .sale(document.getSale())
+                .bill(document.getBill())
                 .build();
         return this.repository.save(documentCreate);
     }
@@ -74,6 +76,8 @@ public class DocumentImplementation implements DocumentService {
                 .name(document.getName())
                 .abbreviation(document.getAbbreviation())
                 .documentStore(documentStoreList)
+                .sale(document.getSale())
+                .bill(document.getBill())
                 .createdAt(document.getCreatedAt())
                 .updatedAt(document.getUpdatedAt())
                 .status(document.getStatus())
@@ -96,6 +100,8 @@ public class DocumentImplementation implements DocumentService {
         documentUpdate.setName(document.getName());
         documentUpdate.setAbbreviation(document.getAbbreviation());
         documentUpdate.setDocumentStore(documentStoreEntities);
+        documentUpdate.setSale(document.getSale());
+        documentUpdate.setBill(document.getBill());
         return this.repository.save(documentUpdate);
     }
 

@@ -39,6 +39,10 @@ public class DocumentEntity {
     @JoinColumn(name = "documentId", nullable = true)
     private List<DocumentStoreEntity> documentStore;
 
+    private Boolean sale;
+
+    private Boolean bill;
+
     private LocalDateTime createdAt;
 
     private LocalDateTime updatedAt;

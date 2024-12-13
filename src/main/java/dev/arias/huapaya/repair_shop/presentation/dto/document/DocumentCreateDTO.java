@@ -18,6 +18,10 @@ public class DocumentCreateDTO {
 
     private String abbreviation;
 
+    private Boolean sale;
+
+    private Boolean bill;
+
     private List<DocumentStoreCreateDTO> documentStore;
 
 }

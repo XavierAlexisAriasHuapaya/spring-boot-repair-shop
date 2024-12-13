@@ -18,6 +18,10 @@ public class DocumentUpdateDTO {
 
     private String abbreviation;
 
+    private Boolean sale;
+
+    private Boolean bill;
+
     private List<DocumentStoreUpdateDTO> documentStore;
 
 }

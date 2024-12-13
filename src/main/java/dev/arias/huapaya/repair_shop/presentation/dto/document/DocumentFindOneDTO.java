@@ -23,6 +23,10 @@ public class DocumentFindOneDTO {
 
     private List<DocumentStoreFindOneDTO> documentStore;
 
+    private Boolean sale;
+
+    private Boolean bill;
+
     private LocalDateTime createdAt;
 
     private LocalDateTime updatedAt;

@@ -18,12 +18,18 @@ public class DocumentPaginationDTO {
 
     private String abbreviation;
 
+    private Boolean sale;
+
+    private Boolean bill;
+
     private Boolean status;
 
     public DocumentPaginationDTO(DocumentEntity document) {
         this.id = document.getId();
         this.name = document.getName();
         this.abbreviation = document.getAbbreviation();
+        this.sale = document.getSale();
+        this.bill = document.getBill();
         this.status = document.getStatus();
     }
 
