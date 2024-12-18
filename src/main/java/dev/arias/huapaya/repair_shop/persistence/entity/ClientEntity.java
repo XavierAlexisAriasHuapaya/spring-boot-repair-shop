@@ -57,7 +57,7 @@ public class ClientEntity {
 
     private LocalDateTime updatedAt;
 
-    private boolean status;
+    private Boolean status;
 
     @PrePersist
     private void prePersist() {
