@@ -49,7 +49,7 @@ public class PettyCashEntity {
 
     private BigDecimal otherClosing;
 
-    private boolean openPettyCash;
+    private Boolean openPettyCash;
 
     private BigDecimal exchangeRate;
 
@@ -64,12 +64,14 @@ public class PettyCashEntity {
     private void PrePersist() {
         this.createdAt = LocalDateTime.now();
         this.updatedAt = LocalDateTime.now();
+        this.openPettyCash = true;
         this.status = true;
     }
 
     @PreUpdate
     private void preUpdate() {
         this.updatedAt = LocalDateTime.now();
+        this.openPettyCash = false;
         this.status = true;
     }
 }
