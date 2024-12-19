@@ -2,6 +2,7 @@ package dev.arias.huapaya.repair_shop.persistence.entity;
 
 import java.time.LocalDateTime;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -34,11 +35,12 @@ public class BankBoxEntity {
 
     private String name;
 
+    @Column(updatable = false)
     private LocalDateTime createdAt;
 
     private LocalDateTime updatedAt;
 
-    private boolean status;
+    private Boolean status;
 
     @PrePersist
     private void prePersist() {
