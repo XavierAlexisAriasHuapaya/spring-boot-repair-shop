@@ -19,5 +19,17 @@ INSERT INTO master_details (master_id, description) VALUES (4, 'Femenino');
 INSERT INTO masters (description, status) VALUES ('Type Supplier', true);
 INSERT INTO master_details (master_id, description) VALUES (5, 'Proveedor General');
 
+INSERT INTO masters (description, status) VALUES ('Unit of measurement', true);
+INSERT INTO master_details (master_id, description) VALUES (6, 'UND');
+
+INSERT INTO masters (description, status) VALUES ('Category', true);
+INSERT INTO master_details (master_id, description) VALUES (7, 'Celulares');
+
+INSERT INTO masters (description, status) VALUES ('Model', true);
+INSERT INTO master_details (master_id, description) VALUES (8, 'iPhone');
+
+INSERT INTO masters (description, status) VALUES ('Brand', true);
+INSERT INTO master_details (master_id, description) VALUES (9, 'Apple');
+
 INSERT INTO roles (description, created_at, updated_at, status) VALUES ('Administrator', '2024-12-05 16:52:45.436', '2024-12-05 16:52:45.436', true);
 INSERT INTO roles (description, created_at, updated_at, status) VALUES ('Technical', '2024-12-05 16:52:45.436', '2024-12-05 16:52:45.436', true);
