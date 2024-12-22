@@ -12,6 +12,8 @@ import lombok.Data;
 @Builder
 public class ProductStoreUpdateDTO {
 
+    private Long id;
+
     private StoreEntity store;
     
     private Integer stock;

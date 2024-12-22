@@ -31,10 +31,6 @@ public class InboundEntity {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "movementId")
-    private MovementEntity movement;
-
-    @ManyToOne
     @JoinColumn(name = "productId")
     private ProductEntity product;
 

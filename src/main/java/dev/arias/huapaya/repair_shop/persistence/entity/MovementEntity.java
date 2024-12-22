@@ -1,9 +1,12 @@
 package dev.arias.huapaya.repair_shop.persistence.entity;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -11,6 +14,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
@@ -26,7 +30,7 @@ import lombok.NoArgsConstructor;
 @Data
 @Builder
 public class MovementEntity {
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -38,9 +42,9 @@ public class MovementEntity {
     @ManyToOne
     @JoinColumn(name = "originStoreId")
     private StoreEntity originStore;
-    
+
     @ManyToOne
-    @JoinColumn(name = "destinationStoreId")
+    @JoinColumn(name = "destinationStoreId", nullable = true)
     private StoreEntity destinationStore;
 
     @ManyToOne
@@ -60,7 +64,15 @@ public class MovementEntity {
     private BigDecimal taxAmount;
 
     private BigDecimal movementTotal;
-    
+
+    @OneToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+    @Column(nullable = true)
+    private List<InboundEntity> inbound;
+
+    @OneToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
+    @Column(nullable = true)
+    private List<OutboundEntity> outbound;
+
     @Column(updatable = false)
     private LocalDateTime createdAt;
 
@@ -73,12 +85,30 @@ public class MovementEntity {
         this.createdAt = LocalDateTime.now();
         this.updatedAt = LocalDateTime.now();
         this.status = true;
+        this.calculateTotals();
     }
 
     @PreUpdate
     private void preUpdate() {
         this.updatedAt = LocalDateTime.now();
         this.status = true;
+    }
+
+    private void calculateTotals() {
+        BigDecimal inboundTotal = BigDecimal.ZERO;
+        if (this.getReason().getValue().equals("I")) {
+            for (InboundEntity inbound : this.getInbound()) {
+                BigDecimal quantity = BigDecimal.valueOf(inbound.getQuantity());
+                BigDecimal salePrice = inbound.getSalePrice() != null
+                        && inbound.getSalePrice().compareTo(BigDecimal.ZERO) != 0
+                                ? inbound.getSalePrice()
+                                : inbound.getProduct().getUnitPrice();
+                inboundTotal = inboundTotal.add(quantity.multiply(salePrice));
+            }
+            BigDecimal subTotal = inboundTotal.divide(BigDecimal.valueOf(1.18), 2, RoundingMode.HALF_UP);
+            this.setSubTotal(subTotal);
+            this.setMovementTotal(inboundTotal);
+        }
     }
 
 }

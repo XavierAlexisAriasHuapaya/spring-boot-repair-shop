@@ -3,6 +3,8 @@ package dev.arias.huapaya.repair_shop.persistence.entity;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -29,6 +31,11 @@ public class ProductStoreEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @ManyToOne
+    @JoinColumn(name = "productId")
+    @JsonBackReference
+    private ProductEntity product;
 
     @ManyToOne
     @JoinColumn(name = "storeId")

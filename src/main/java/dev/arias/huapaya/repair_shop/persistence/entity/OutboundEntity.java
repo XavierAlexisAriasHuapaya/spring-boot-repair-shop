@@ -30,10 +30,7 @@ public class OutboundEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "movementId")
-    private MovementEntity movement;
-
+    // @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "productId")
     private ProductEntity product;

@@ -24,4 +24,6 @@ public class MasterDetailEntity {
 
     private String description;
 
+    private String value;
+
 }

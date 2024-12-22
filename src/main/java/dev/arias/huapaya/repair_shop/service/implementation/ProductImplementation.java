@@ -1,5 +1,6 @@
 package dev.arias.huapaya.repair_shop.service.implementation;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -8,12 +9,15 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import dev.arias.huapaya.repair_shop.persistence.entity.ProductEntity;
+import dev.arias.huapaya.repair_shop.persistence.entity.ProductStoreEntity;
 import dev.arias.huapaya.repair_shop.persistence.repository.ProductRepository;
 import dev.arias.huapaya.repair_shop.presentation.dto.main.PageDTO;
 import dev.arias.huapaya.repair_shop.presentation.dto.product.ProductCreateDTO;
 import dev.arias.huapaya.repair_shop.presentation.dto.product.ProductFindOneDTO;
+import dev.arias.huapaya.repair_shop.presentation.dto.product.ProductMovementUpdateDTO;
 import dev.arias.huapaya.repair_shop.presentation.dto.product.ProductPaginationDTO;
 import dev.arias.huapaya.repair_shop.presentation.dto.product.ProductUpdateDTO;
+import dev.arias.huapaya.repair_shop.presentation.dto.product_store.ProductStoreUpdateDTO;
 import dev.arias.huapaya.repair_shop.service.interfaces.ProductService;
 import lombok.AllArgsConstructor;
 
@@ -93,6 +97,38 @@ public class ProductImplementation implements ProductService {
                 .toList();
         return new PageDTO<>(productList, productPage.getNumber(), productPage.getSize(),
                 productPage.getTotalElements());
+    }
+
+    @Override
+    public ProductEntity updateProductMovement(ProductMovementUpdateDTO data, Long id) {
+        Optional<ProductEntity> productFind = this.repository.findById(id);
+        if (!productFind.isPresent()) {
+
+        }
+        ProductEntity product = productFind.get();
+        List<ProductStoreEntity> productStoreList = new ArrayList<>();
+        for (ProductStoreUpdateDTO productMovement : data.getProductStore()) {
+            ProductStoreEntity productStore = ProductStoreEntity.builder()
+                    .id(productMovement.getId())
+                    .product(product)
+                    .store(productMovement.getStore())
+                    .stock(productMovement.getStock())
+                    .salePrice(productMovement.getSalePrice())
+                    .purchasePrice(productMovement.getPurchasePrice())
+                    .build();
+            productStoreList.add(productStore);
+        }
+        product.setProductStore(productStoreList);
+        return this.repository.save(product);
+    }
+
+    @Override
+    public Optional<ProductEntity> findById(Long id) {
+        Optional<ProductEntity> productFind = this.repository.findById(id);
+        if (!productFind.isPresent()) {
+            return Optional.empty();
+        }
+        return productFind;
     }
 
 }

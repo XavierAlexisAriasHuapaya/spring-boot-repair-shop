@@ -8,6 +8,7 @@ import dev.arias.huapaya.repair_shop.persistence.entity.ProductEntity;
 import dev.arias.huapaya.repair_shop.presentation.dto.main.PageDTO;
 import dev.arias.huapaya.repair_shop.presentation.dto.product.ProductCreateDTO;
 import dev.arias.huapaya.repair_shop.presentation.dto.product.ProductFindOneDTO;
+import dev.arias.huapaya.repair_shop.presentation.dto.product.ProductMovementUpdateDTO;
 import dev.arias.huapaya.repair_shop.presentation.dto.product.ProductPaginationDTO;
 import dev.arias.huapaya.repair_shop.presentation.dto.product.ProductUpdateDTO;
 
@@ -19,6 +20,10 @@ public interface ProductService {
 
     public Optional<ProductFindOneDTO> findOne(Long id);
 
+    public Optional<ProductEntity> findById(Long id);
+
     public PageDTO<ProductPaginationDTO> pagination(Pageable pageable);
+
+    public ProductEntity updateProductMovement(ProductMovementUpdateDTO data, Long id);
 
 }
