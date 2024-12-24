@@ -101,30 +101,24 @@ public class ProductImplementation implements ProductService {
 
     @Override
     public ProductEntity updateProductMovement(ProductMovementUpdateDTO data, Long id) {
-        try {
-            Optional<ProductEntity> productFind = this.repository.findById(id);
-            if (!productFind.isPresent()) {
+        Optional<ProductEntity> productFind = this.repository.findById(id);
+        if (!productFind.isPresent()) {
 
-            }
-            ProductEntity product = productFind.get();
-            List<ProductStoreEntity> productStoreList = new ArrayList<>();
-            for (ProductStoreUpdateDTO productMovement : data.getProductStore()) {
-                ProductStoreEntity productStore = ProductStoreEntity.builder()
-                        .id(productMovement.getId())
-                        .product(product)
-                        .store(productMovement.getStore())
-                        .stock(productMovement.getStock())
-                        .salePrice(productMovement.getSalePrice())
-                        .purchasePrice(productMovement.getPurchasePrice())
-                        .build();
-                productStoreList.add(productStore);
-            }
-            product.setProductStore(productStoreList);
-            return this.repository.save(product);
-        } catch (Exception e) {
-            return null;
         }
-
+        ProductEntity product = productFind.get();
+        List<ProductStoreEntity> productStoreList = new ArrayList<>();
+        for (ProductStoreUpdateDTO productMovement : data.getProductStore()) {
+            ProductStoreEntity productStore = ProductStoreEntity.builder()
+                    .id(productMovement.getId())
+                    .store(productMovement.getStore())
+                    .stock(productMovement.getStock())
+                    .salePrice(productMovement.getSalePrice())
+                    .purchasePrice(productMovement.getPurchasePrice())
+                    .build();
+            productStoreList.add(productStore);
+        }
+        product.setProductStore(productStoreList);
+        return this.repository.save(product);
     }
 
     @Override
@@ -134,6 +128,21 @@ public class ProductImplementation implements ProductService {
             return Optional.empty();
         }
         return productFind;
+    }
+
+    @Override
+    public Optional<ProductStoreEntity> findByIdAndProductStore_Store_Id(Long productId, Long storeId) {
+        Optional<ProductEntity> productOpt = this.repository.findByIdAndProductStore_Store_Id(productId,
+                storeId);
+        if (!productOpt.isPresent()) {
+            return Optional.empty();
+        }
+        ProductEntity product = productOpt.get();
+        ProductStoreEntity productStoreOpt = product.getProductStore().get(0);
+        if (productStoreOpt == null) {
+            return Optional.empty();
+        }
+        return Optional.of(productStoreOpt);
     }
 
 }

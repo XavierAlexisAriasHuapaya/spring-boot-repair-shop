@@ -25,7 +25,6 @@ import dev.arias.huapaya.repair_shop.presentation.dto.product_store.ProductStore
 import dev.arias.huapaya.repair_shop.presentation.exception.ExceptionMessage;
 import dev.arias.huapaya.repair_shop.service.interfaces.MovementService;
 import dev.arias.huapaya.repair_shop.service.interfaces.ProductService;
-import dev.arias.huapaya.repair_shop.service.interfaces.ProductStoreService;
 import lombok.AllArgsConstructor;
 
 @AllArgsConstructor
@@ -36,13 +35,11 @@ public class MovementImplementation implements MovementService {
 
         private final ProductService productService;
 
-        private final ProductStoreService productStoreService;
-
         private List<InboundEntity> createOrUpdateInbound(InboundOutboundCreateDTO inout, MovementCreateDTO data) {
                 List<InboundEntity> inboundList = new ArrayList<>();
                 List<ProductStoreUpdateDTO> productStoreList = new ArrayList<>();
-                Optional<ProductStoreEntity> productStoreOpt = productStoreService
-                                .findByProduct_IdAndStore_Id(
+                Optional<ProductStoreEntity> productStoreOpt = productService
+                                .findByIdAndProductStore_Store_Id(
                                                 inout.getProduct().getId(),
                                                 data.getOriginStore().getId());
                 if (productStoreOpt.isEmpty()) {
@@ -113,8 +110,8 @@ public class MovementImplementation implements MovementService {
         private List<OutboundEntity> updateOutbound(InboundOutboundCreateDTO inout, MovementCreateDTO data) {
                 List<OutboundEntity> outboundList = new ArrayList<>();
                 List<ProductStoreUpdateDTO> productStoreList = new ArrayList<>();
-                Optional<ProductStoreEntity> productStoreOpt = productStoreService
-                                .findByProduct_IdAndStore_Id(
+                Optional<ProductStoreEntity> productStoreOpt = productService
+                                .findByIdAndProductStore_Store_Id(
                                                 inout.getProduct().getId(),
                                                 data.getOriginStore().getId());
                 if (productStoreOpt.isEmpty()) {
@@ -163,8 +160,8 @@ public class MovementImplementation implements MovementService {
         private List<InboundEntity> createInboundTransfer(InboundOutboundCreateDTO inout, MovementCreateDTO data) {
                 List<InboundEntity> inboundList = new ArrayList<>();
                 List<ProductStoreUpdateDTO> productStoreList = new ArrayList<>();
-                Optional<ProductStoreEntity> productStoreOpt = productStoreService
-                                .findByProduct_IdAndStore_Id(
+                Optional<ProductStoreEntity> productStoreOpt = productService
+                                .findByIdAndProductStore_Store_Id(
                                                 inout.getProduct().getId(),
                                                 data.getDestinationStore().getId());
                 if (productStoreOpt.isEmpty()) {
