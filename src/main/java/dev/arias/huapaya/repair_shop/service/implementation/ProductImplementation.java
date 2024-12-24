@@ -101,25 +101,30 @@ public class ProductImplementation implements ProductService {
 
     @Override
     public ProductEntity updateProductMovement(ProductMovementUpdateDTO data, Long id) {
-        Optional<ProductEntity> productFind = this.repository.findById(id);
-        if (!productFind.isPresent()) {
+        try {
+            Optional<ProductEntity> productFind = this.repository.findById(id);
+            if (!productFind.isPresent()) {
 
+            }
+            ProductEntity product = productFind.get();
+            List<ProductStoreEntity> productStoreList = new ArrayList<>();
+            for (ProductStoreUpdateDTO productMovement : data.getProductStore()) {
+                ProductStoreEntity productStore = ProductStoreEntity.builder()
+                        .id(productMovement.getId())
+                        .product(product)
+                        .store(productMovement.getStore())
+                        .stock(productMovement.getStock())
+                        .salePrice(productMovement.getSalePrice())
+                        .purchasePrice(productMovement.getPurchasePrice())
+                        .build();
+                productStoreList.add(productStore);
+            }
+            product.setProductStore(productStoreList);
+            return this.repository.save(product);
+        } catch (Exception e) {
+            return null;
         }
-        ProductEntity product = productFind.get();
-        List<ProductStoreEntity> productStoreList = new ArrayList<>();
-        for (ProductStoreUpdateDTO productMovement : data.getProductStore()) {
-            ProductStoreEntity productStore = ProductStoreEntity.builder()
-                    .id(productMovement.getId())
-                    .product(product)
-                    .store(productMovement.getStore())
-                    .stock(productMovement.getStock())
-                    .salePrice(productMovement.getSalePrice())
-                    .purchasePrice(productMovement.getPurchasePrice())
-                    .build();
-            productStoreList.add(productStore);
-        }
-        product.setProductStore(productStoreList);
-        return this.repository.save(product);
+
     }
 
     @Override

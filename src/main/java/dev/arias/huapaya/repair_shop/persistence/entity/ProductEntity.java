@@ -22,6 +22,7 @@ import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 @Entity
@@ -64,6 +65,7 @@ public class ProductEntity {
 
     @OneToMany(mappedBy = "product", cascade = { CascadeType.MERGE, CascadeType.PERSIST }, fetch = FetchType.EAGER)
     @JsonManagedReference
+    @EqualsAndHashCode.Exclude
     private List<ProductStoreEntity> productStore;
 
     @Column(updatable = false)

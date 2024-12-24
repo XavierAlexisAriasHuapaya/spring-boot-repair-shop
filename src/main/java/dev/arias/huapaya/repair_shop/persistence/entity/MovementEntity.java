@@ -9,6 +9,7 @@ import java.util.List;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -65,12 +66,12 @@ public class MovementEntity {
 
     private BigDecimal movementTotal;
 
-    @OneToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
-    @Column(nullable = true)
+    @OneToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE }, fetch = FetchType.EAGER)
+    @JoinColumn(nullable = true, name = "movementId")
     private List<InboundEntity> inbound;
 
-    @OneToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
-    @Column(nullable = true)
+    @OneToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE }, fetch = FetchType.EAGER)
+    @JoinColumn(nullable = true, name = "movementId")
     private List<OutboundEntity> outbound;
 
     @Column(updatable = false)

@@ -34,7 +34,7 @@ INSERT INTO master_details (master_id, description, value) VALUES (9, 'Apple', '
 INSERT INTO masters (description, status) VALUES ('Movement reason', true);
 INSERT INTO master_details (master_id, description, value) VALUES (10, 'COMPRA DIRECTA', 'I');
 INSERT INTO master_details (master_id, description, value) VALUES (10, 'VENTA DE PRODUCTOS', 'O');
-INSERT INTO master_details (master_id, description, value) VALUES (10, 'TRASLADO ENTRE ALMACENES', 'N');
+INSERT INTO master_details (master_id, description, value) VALUES (10, 'TRASLADO ENTRE ALMACENES', 'O');
 INSERT INTO master_details (master_id, description, value) VALUES (10, 'PRODUCTOS DEFECTUOSOS', 'O');
 INSERT INTO master_details (master_id, description, value) VALUES (10, 'INVENTARIO INICIAL', 'I');
 INSERT INTO master_details (master_id, description, value) VALUES (10, 'AJUSTE DE INVENTARIO', 'N');

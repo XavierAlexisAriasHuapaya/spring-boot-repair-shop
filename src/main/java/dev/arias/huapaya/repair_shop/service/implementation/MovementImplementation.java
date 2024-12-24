@@ -126,6 +126,7 @@ public class MovementImplementation implements MovementService {
                 if (!productOpt.isPresent()) {
                         throw new ExceptionMessage("Not found product");
                 }
+
                 ProductEntity product = productOpt.get();
                 Optional<Integer> stockProductStore = product.getProductStore().stream()
                                 .filter(ps -> ps.getStore().getId()
@@ -159,6 +160,78 @@ public class MovementImplementation implements MovementService {
                 return outboundList;
         }
 
+        private List<InboundEntity> createInboundTransfer(InboundOutboundCreateDTO inout, MovementCreateDTO data) {
+                List<InboundEntity> inboundList = new ArrayList<>();
+                List<ProductStoreUpdateDTO> productStoreList = new ArrayList<>();
+                Optional<ProductStoreEntity> productStoreOpt = productStoreService
+                                .findByProduct_IdAndStore_Id(
+                                                inout.getProduct().getId(),
+                                                data.getDestinationStore().getId());
+                if (productStoreOpt.isEmpty()) {
+                        Optional<ProductEntity> productOpt = this.productService
+                                        .findById(inout.getProduct().getId());
+                        if (!productOpt.isPresent()) {
+                                throw new ExceptionMessage("Not found product");
+                        }
+                        ProductEntity product = productOpt.get();
+                        ProductStoreUpdateDTO productoStoreUpdate = ProductStoreUpdateDTO.builder()
+                                        .store(data.getDestinationStore())
+                                        .stock(inout.getQuantity())
+                                        .salePrice(BigDecimal.ZERO)
+                                        .purchasePrice(BigDecimal.ZERO)
+                                        .build();
+                        productStoreList.add(productoStoreUpdate);
+                        ProductMovementUpdateDTO productStore = ProductMovementUpdateDTO.builder()
+                                        .productStore(productStoreList)
+                                        .build();
+                        this.productService.updateProductMovement(productStore, product.getId());
+                        InboundEntity inbound = InboundEntity.builder()
+                                        .product(inout.getProduct())
+                                        .quantity(inout.getQuantity())
+                                        .salePrice(inout.getPrice())
+                                        .build();
+                        inboundList.add(inbound);
+                        productStoreList.clear();
+                } else {
+                        Optional<ProductEntity> productOpt = this.productService
+                                        .findById(inout.getProduct().getId());
+                        if (!productOpt.isPresent()) {
+                                throw new ExceptionMessage("Not found product");
+                        }
+                        ProductEntity product = productOpt.get();
+                        Optional<Integer> stockProductStore = product.getProductStore().stream()
+                                        .filter(ps -> ps.getStore().getId()
+                                                        .equals(data.getDestinationStore().getId()))
+                                        .map(ProductStoreEntity::getStock)
+                                        .findFirst();
+                        Optional<Long> IdProductStore = product.getProductStore().stream()
+                                        .filter(ps -> ps.getStore().getId()
+                                                        .equals(data.getDestinationStore().getId()))
+                                        .map(ProductStoreEntity::getId)
+                                        .findFirst();
+                        ProductStoreUpdateDTO productoStoreUpdate = ProductStoreUpdateDTO.builder()
+                                        .id(IdProductStore.get())
+                                        .store(data.getDestinationStore())
+                                        .stock(inout.getQuantity() + stockProductStore.get())
+                                        .salePrice(BigDecimal.ZERO)
+                                        .purchasePrice(BigDecimal.ZERO)
+                                        .build();
+                        productStoreList.add(productoStoreUpdate);
+                        ProductMovementUpdateDTO productStore = ProductMovementUpdateDTO.builder()
+                                        .productStore(productStoreList)
+                                        .build();
+                        this.productService.updateProductMovement(productStore, product.getId());
+                        InboundEntity inbound = InboundEntity.builder()
+                                        .product(inout.getProduct())
+                                        .quantity(inout.getQuantity())
+                                        .salePrice(inout.getPrice())
+                                        .build();
+                        inboundList.add(inbound);
+                        productStoreList.clear();
+                }
+                return inboundList;
+        }
+
         @Override
         public MovementEntity create(MovementCreateDTO data) {
                 List<InboundEntity> inboundList = new ArrayList<>();
@@ -166,13 +239,19 @@ public class MovementImplementation implements MovementService {
                 for (InboundOutboundCreateDTO inout : data.getInboundOutbound()) {
                         if (data.getReason().getValue().equals("I")) {
                                 inboundList = this.createOrUpdateInbound(inout, data);
-                        } else {
+                        } else if (data.getReason().getValue().equals("O")) {
                                 outboundList = this.updateOutbound(inout, data);
+                                if (data.getReason().getDescription().contains("TRASLADO")) {
+                                        inboundList = this.createInboundTransfer(inout, data);
+                                }
+                        } else {
+
                         }
                 }
                 if (inboundList.size() == 0 && outboundList.size() == 0) {
                         throw new ExceptionMessage("The movement cannot be performed");
                 }
+
                 MovementEntity movementCreate = MovementEntity.builder()
                                 .reason(data.getReason())
                                 .originStore(data.getOriginStore())
@@ -185,7 +264,22 @@ public class MovementImplementation implements MovementService {
                                 .inbound(inboundList)
                                 .outbound(outboundList)
                                 .build();
-                return this.repository.save(movementCreate);
+                movementCreate = this.repository.save(movementCreate);
+                if (data.getReason().getDescription().contains("TRASLADO")) {
+                        MovementEntity movementDestination = MovementEntity.builder()
+                                        .reason(data.getReason()).originStore(data.getDestinationStore())
+                                        .destinationStore(null)
+                                        .referenceMovement(movementCreate).sale(data.getSale())
+                                        .operationDate(data.getOperationDate())
+                                        .observation(data.getObservation())
+                                        .taxAmount(data.getTaxAmount())
+                                        .inbound(inboundList)
+                                        .outbound(outboundList)
+                                        .build();
+                        this.repository.save(movementDestination);
+                }
+
+                return movementCreate;
         }
 
         @Override
