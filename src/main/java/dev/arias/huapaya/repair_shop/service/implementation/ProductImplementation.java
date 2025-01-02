@@ -1,6 +1,5 @@
 package dev.arias.huapaya.repair_shop.service.implementation;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,6 +17,7 @@ import dev.arias.huapaya.repair_shop.presentation.dto.product.ProductMovementUpd
 import dev.arias.huapaya.repair_shop.presentation.dto.product.ProductPaginationDTO;
 import dev.arias.huapaya.repair_shop.presentation.dto.product.ProductUpdateDTO;
 import dev.arias.huapaya.repair_shop.presentation.dto.product_store.ProductStoreUpdateDTO;
+import dev.arias.huapaya.repair_shop.presentation.exception.ExceptionMessage;
 import dev.arias.huapaya.repair_shop.service.interfaces.ProductService;
 import lombok.AllArgsConstructor;
 
@@ -103,21 +103,34 @@ public class ProductImplementation implements ProductService {
     public ProductEntity updateProductMovement(ProductMovementUpdateDTO data, Long id) {
         Optional<ProductEntity> productFind = this.repository.findById(id);
         if (!productFind.isPresent()) {
-
+            throw new ExceptionMessage("Not found product");
         }
         ProductEntity product = productFind.get();
-        List<ProductStoreEntity> productStoreList = new ArrayList<>();
         for (ProductStoreUpdateDTO productMovement : data.getProductStore()) {
-            ProductStoreEntity productStore = ProductStoreEntity.builder()
-                    .id(productMovement.getId())
-                    .store(productMovement.getStore())
-                    .stock(productMovement.getStock())
-                    .salePrice(productMovement.getSalePrice())
-                    .purchasePrice(productMovement.getPurchasePrice())
-                    .build();
-            productStoreList.add(productStore);
+
+            ProductStoreEntity productStore = product.getProductStore().stream()
+                    .filter(p -> p.getId().equals(productMovement.getId()))
+                    .findFirst()
+                    .orElse(null);
+
+            if (productStore != null) {
+                productStore.setStore(productMovement.getStore());
+                productStore.setStock(productMovement.getStock());
+                productStore.setSalePrice(productMovement.getSalePrice());
+                productStore.setPurchasePrice(productMovement.getPurchasePrice());
+            } else {
+                productStore = ProductStoreEntity.builder()
+                        .id(productMovement.getId())
+                        .store(productMovement.getStore())
+                        .stock(productMovement.getStock())
+                        .salePrice(productMovement.getSalePrice())
+                        .purchasePrice(productMovement.getPurchasePrice())
+                        .build();
+                product.getProductStore().add(productStore);
+            }
+            // updatedProductStoreList.add(productStore);
         }
-        product.setProductStore(productStoreList);
+        // product.setProductStore(updatedProductStoreList);
         return this.repository.save(product);
     }
 
