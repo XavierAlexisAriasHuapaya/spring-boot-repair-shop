@@ -106,10 +106,10 @@ public class MovementEntity {
                                 : inbound.getProduct().getUnitPrice();
                 inboundTotal = inboundTotal.add(quantity.multiply(salePrice));
             }
-            BigDecimal subTotal = inboundTotal.divide(BigDecimal.valueOf(1.18), 2, RoundingMode.HALF_UP);
-            this.setSubTotal(subTotal);
-            this.setMovementTotal(inboundTotal);
         }
+        BigDecimal subTotal = inboundTotal.divide(BigDecimal.valueOf(1.18), 2, RoundingMode.HALF_UP);
+        this.setSubTotal(this.getReason().getValue().equals("I") ? subTotal : BigDecimal.ZERO);
+        this.setMovementTotal(this.getReason().getValue().equals("I") ? inboundTotal : BigDecimal.ZERO);
     }
 
 }

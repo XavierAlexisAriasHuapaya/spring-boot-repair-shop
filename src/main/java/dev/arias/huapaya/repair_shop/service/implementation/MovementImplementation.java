@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -35,8 +36,8 @@ public class MovementImplementation implements MovementService {
 
         private final ProductService productService;
 
-        private List<InboundEntity> createOrUpdateInbound(InboundOutboundCreateDTO inout, MovementCreateDTO data) {
-                List<InboundEntity> inboundList = new ArrayList<>();
+        private InboundEntity createOrUpdateInbound(InboundOutboundCreateDTO inout, MovementCreateDTO data) {
+                InboundEntity inboundEntity;
                 List<ProductStoreUpdateDTO> productStoreList = new ArrayList<>();
                 Optional<ProductStoreEntity> productStoreOpt = productService
                                 .findByIdAndProductStore_Store_Id(
@@ -65,8 +66,7 @@ public class MovementImplementation implements MovementService {
                                         .quantity(inout.getQuantity())
                                         .salePrice(inout.getPrice())
                                         .build();
-                        inboundList.add(inbound);
-                        productStoreList.clear();
+                        inboundEntity = inbound;
                 } else {
                         Optional<ProductEntity> productOpt = this.productService
                                         .findById(inout.getProduct().getId());
@@ -101,14 +101,13 @@ public class MovementImplementation implements MovementService {
                                         .quantity(inout.getQuantity())
                                         .salePrice(inout.getPrice())
                                         .build();
-                        inboundList.add(inbound);
-                        productStoreList.clear();
+                        inboundEntity = inbound;
                 }
-                return inboundList;
+                return inboundEntity;
         }
 
-        private List<OutboundEntity> updateOutbound(InboundOutboundCreateDTO inout, MovementCreateDTO data) {
-                List<OutboundEntity> outboundList = new ArrayList<>();
+        private OutboundEntity updateOutbound(InboundOutboundCreateDTO inout, MovementCreateDTO data) {
+                OutboundEntity outboundEntity;
                 List<ProductStoreUpdateDTO> productStoreList = new ArrayList<>();
                 Optional<ProductStoreEntity> productStoreOpt = productService
                                 .findByIdAndProductStore_Store_Id(
@@ -152,13 +151,12 @@ public class MovementImplementation implements MovementService {
                                 .quantity(inout.getQuantity())
                                 .purchasePrice(inout.getPrice())
                                 .build();
-                outboundList.add(outbond);
-                productStoreList.clear();
-                return outboundList;
+                outboundEntity = outbond;
+                return outboundEntity;
         }
 
-        private List<InboundEntity> createInboundTransfer(InboundOutboundCreateDTO inout, MovementCreateDTO data) {
-                List<InboundEntity> inboundList = new ArrayList<>();
+        private InboundEntity createInboundTransfer(InboundOutboundCreateDTO inout, MovementCreateDTO data) {
+                InboundEntity inboundEntity;
                 List<ProductStoreUpdateDTO> productStoreList = new ArrayList<>();
                 Optional<ProductStoreEntity> productStoreOpt = productService
                                 .findByIdAndProductStore_Store_Id(
@@ -187,8 +185,7 @@ public class MovementImplementation implements MovementService {
                                         .quantity(inout.getQuantity())
                                         .salePrice(inout.getPrice())
                                         .build();
-                        inboundList.add(inbound);
-                        productStoreList.clear();
+                        inboundEntity = inbound;
                 } else {
                         Optional<ProductEntity> productOpt = this.productService
                                         .findById(inout.getProduct().getId());
@@ -223,10 +220,45 @@ public class MovementImplementation implements MovementService {
                                         .quantity(inout.getQuantity())
                                         .salePrice(inout.getPrice())
                                         .build();
-                        inboundList.add(inbound);
-                        productStoreList.clear();
+                        inboundEntity = inbound;
                 }
-                return inboundList;
+                return inboundEntity;
+        }
+
+        private Pair<InboundEntity, OutboundEntity> inventoryAdjustment(InboundOutboundCreateDTO inout,
+                        MovementCreateDTO data) {
+                InboundEntity inboundEntity = null;
+                OutboundEntity outboundEntity = null;
+
+                Optional<ProductEntity> productOpt = this.productService
+                                .findById(inout.getProduct().getId());
+                if (!productOpt.isPresent()) {
+                        throw new ExceptionMessage("Not found product");
+                }
+                ProductEntity product = productOpt.get();
+
+                Optional<ProductStoreEntity> productStoreOpt = product.getProductStore().stream()
+                                .filter(p -> p.getStore().getId().equals(data.getOriginStore().getId()))
+                                .findFirst();
+                if (!productStoreOpt.isPresent()) {
+                        throw new ExceptionMessage("Not found product store");
+                }
+
+                ProductStoreEntity productStore = productStoreOpt.get();
+
+                if (productStore.getStock() > inout.getQuantity()) {
+                        // !Outbound
+                        inout.setQuantity(productStore.getStock() - inout.getQuantity());
+                        outboundEntity = this.updateOutbound(inout, data);
+                } else if (productStore.getStock() < inout.getQuantity()) {
+                        // !Inbound
+                        inout.setQuantity(inout.getQuantity() - productStore.getStock());
+                        inboundEntity = this.createOrUpdateInbound(inout, data);
+                } else {
+                        // !Not action
+                }
+
+                return Pair.of(inboundEntity, outboundEntity);
         }
 
         @Override
@@ -235,14 +267,23 @@ public class MovementImplementation implements MovementService {
                 List<OutboundEntity> outboundList = new ArrayList<>();
                 for (InboundOutboundCreateDTO inout : data.getInboundOutbound()) {
                         if (data.getReason().getValue().equals("I")) {
-                                inboundList = this.createOrUpdateInbound(inout, data);
+                                inboundList.add(this.createOrUpdateInbound(inout, data));
                         } else if (data.getReason().getValue().equals("O")) {
-                                outboundList = this.updateOutbound(inout, data);
+                                outboundList.add(this.updateOutbound(inout, data));
                                 if (data.getReason().getDescription().contains("TRASLADO")) {
-                                        inboundList = this.createInboundTransfer(inout, data);
+                                        inboundList.add(this.createInboundTransfer(inout, data));
+                                }
+                        } else if (data.getReason().getValue().equals("N")) {
+                                Pair<InboundEntity, OutboundEntity> pairAdjustment = this
+                                                .inventoryAdjustment(inout, data);
+                                if (pairAdjustment.getLeft() != null) {
+                                        inboundList.add(pairAdjustment.getLeft());
+                                }
+                                if (pairAdjustment.getRight() != null) {
+                                        outboundList.add(pairAdjustment.getRight());
                                 }
                         } else {
-
+                                throw new ExceptionMessage("The movement cannot be performed");
                         }
                 }
                 if (inboundList.size() == 0 && outboundList.size() == 0) {
