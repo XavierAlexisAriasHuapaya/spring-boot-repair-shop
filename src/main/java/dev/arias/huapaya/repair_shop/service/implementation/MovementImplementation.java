@@ -302,7 +302,7 @@ public class MovementImplementation implements MovementService {
                                 .sale(data.getSale())
                                 .operationDate(data.getOperationDate())
                                 .observation(data.getObservation())
-                                .taxAmount(data.getTaxAmount())
+                                .exchangeRate(data.getExchangeRate())
                                 .inbound(inboundList)
                                 .outbound(outboundList)
                                 .build();
@@ -314,7 +314,7 @@ public class MovementImplementation implements MovementService {
                                         .referenceMovement(movementCreate).sale(data.getSale())
                                         .operationDate(data.getOperationDate())
                                         .observation(data.getObservation())
-                                        .taxAmount(data.getTaxAmount())
+                                        .exchangeRate(data.getExchangeRate())
                                         .inbound(inboundList)
                                         .outbound(outboundList)
                                         .build();

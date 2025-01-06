@@ -59,6 +59,8 @@ public class MovementEntity {
     private LocalDate operationDate;
 
     private String observation;
+    
+    private BigDecimal exchangeRate;
 
     private BigDecimal subTotal;
 
@@ -110,6 +112,7 @@ public class MovementEntity {
         BigDecimal subTotal = inboundTotal.divide(BigDecimal.valueOf(1.18), 2, RoundingMode.HALF_UP);
         this.setSubTotal(this.getReason().getValue().equals("I") ? subTotal : BigDecimal.ZERO);
         this.setMovementTotal(this.getReason().getValue().equals("I") ? inboundTotal : BigDecimal.ZERO);
+        this.setTaxAmount(this.getReason().getValue().equals("I") ? (this.getMovementTotal().subtract(this.getSubTotal())) : BigDecimal.ZERO);
     }
 
 }

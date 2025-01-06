@@ -1,6 +1,7 @@
 package dev.arias.huapaya.repair_shop.persistence.entity;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -55,7 +56,13 @@ public class PurchaseEntity {
     @JoinColumn(name = "purchaseId")
     private List<PurchaseDetailEntity> purchaseDetails;
 
+    private BigDecimal subTotal;
+
+    private BigDecimal taxAmount;
+
     private BigDecimal purchaseAmount;
+
+    private BigDecimal exchangeRate;
 
     @Column(updatable = false)
     private LocalDateTime createdAt;
@@ -69,6 +76,23 @@ public class PurchaseEntity {
         this.createdAt = LocalDateTime.now();
         this.updatedAt = LocalDateTime.now();
         this.status = true;
+        this.calculateTotals();
+    }
+
+    private void calculateTotals() {
+        BigDecimal amount = BigDecimal.ZERO;
+        for (PurchaseDetailEntity details : this.purchaseDetails) {
+            BigDecimal quantity = BigDecimal.valueOf(details.getQuantity());
+            amount = amount.add(quantity.multiply(details.getPrice()));
+        }
+        this.purchaseDetails.stream()
+                .forEach(details -> {
+                    BigDecimal quantity = BigDecimal.valueOf(details.getQuantity());
+                    details.setTotalAmount(quantity.multiply(details.getPrice()));
+                });
+        this.purchaseAmount = amount;
+        this.subTotal = amount.divide(BigDecimal.valueOf(1.18), 2, RoundingMode.HALF_UP);
+        this.taxAmount = this.purchaseAmount.subtract(this.subTotal);
     }
 
     @PreUpdate

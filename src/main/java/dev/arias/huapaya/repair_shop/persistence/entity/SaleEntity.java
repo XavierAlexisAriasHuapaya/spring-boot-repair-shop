@@ -86,6 +86,8 @@ public class SaleEntity {
 
     private BigDecimal discount;
 
+    private BigDecimal exchangeRate;
+
     @Column(updatable = false)
     private LocalDateTime createdAt;
 
@@ -118,6 +120,7 @@ public class SaleEntity {
         this.discount = discount;
         this.saleAmount = amount;
         this.subTotal = amount.divide(BigDecimal.valueOf(1.18), 2, RoundingMode.HALF_UP);
+        this.taxAmount = this.saleAmount.subtract(this.subTotal);
     }
 
     private void generatedSerieAndNumber() {

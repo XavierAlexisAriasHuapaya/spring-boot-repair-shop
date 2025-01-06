@@ -43,7 +43,7 @@ public class SaleCreateDTO {
 
     private List<SaleDetailCreateDTO> saleDetails;
 
-    private BigDecimal taxAmount;
+    private BigDecimal exchangeRate;
 
     private String observation;
 

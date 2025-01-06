@@ -35,6 +35,8 @@ public class PurchaseDetailEntity {
 
     private BigDecimal price;
 
+    private BigDecimal totalAmount;
+
     private Boolean status;
 
     @PrePersist

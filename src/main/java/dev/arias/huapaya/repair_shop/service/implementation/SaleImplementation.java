@@ -72,7 +72,7 @@ public class SaleImplementation implements SaleService {
                 .deliveryDate(sale.getDeliveryDate())
                 .expirationDate(sale.getExpirationDate())
                 .saleDetails(saleDetailEntities)
-                .taxAmount(sale.getTaxAmount())
+                .exchangeRate(sale.getExchangeRate())
                 .observation(sale.getObservation())
                 .build();
         saleCreate = this.repository.save(saleCreate);
@@ -88,7 +88,7 @@ public class SaleImplementation implements SaleService {
                 .sale(saleCreate)
                 .operationDate(sale.getOperationDate())
                 .observation(sale.getObservation())
-                .taxAmount(sale.getTaxAmount())
+                .exchangeRate(sale.getExchangeRate())
                 .inboundOutbound(inboundList)
                 .build();
         MovementEntity movement = this.movementService.create(movementDto);

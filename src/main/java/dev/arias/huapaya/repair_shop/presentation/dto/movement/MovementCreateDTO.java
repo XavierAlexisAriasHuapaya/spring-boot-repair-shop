@@ -31,7 +31,7 @@ public class MovementCreateDTO {
 
     private String observation;
 
-    private BigDecimal taxAmount;
+    private BigDecimal exchangeRate;
 
     private List<InboundOutboundCreateDTO> inboundOutbound;
 
