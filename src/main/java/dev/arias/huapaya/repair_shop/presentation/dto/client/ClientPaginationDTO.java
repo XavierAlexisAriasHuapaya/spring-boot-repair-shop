@@ -17,6 +17,8 @@ public class ClientPaginationDTO {
 
     private MasterDetailEntity typePerson;
 
+    private String identityNumber;
+
     private String fullName;
 
     private String phone;
@@ -28,6 +30,7 @@ public class ClientPaginationDTO {
     public ClientPaginationDTO(ClientEntity client) {
         this.id = client.getId();
         this.typePerson = client.getTypePerson();
+        this.identityNumber = client.getIdentityNumber();
         this.fullName = client.getFirstName() + " " + client.getLastName();
         this.phone = client.getPhone();
         this.email = client.getEmail();

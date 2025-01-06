@@ -58,6 +58,7 @@ public class ProductEntity {
 
     private Integer minimumStock;
 
+    @Column(length = 1024)
     private String image;
 
     @OneToMany(cascade = { CascadeType.MERGE, CascadeType.PERSIST }, fetch = FetchType.EAGER)

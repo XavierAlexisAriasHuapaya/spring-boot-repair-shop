@@ -18,6 +18,8 @@ public class ClientCreateDTO {
 
     private MasterDetailEntity gender;
 
+    private String identityNumber;
+
     private String firstName;
 
     private String lastName;

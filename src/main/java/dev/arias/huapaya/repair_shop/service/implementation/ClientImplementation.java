@@ -30,6 +30,7 @@ public class ClientImplementation implements ClientService {
                 .gender(client.getGender())
                 .firstName(client.getFirstName())
                 .lastName(client.getLastName())
+                .identityNumber(client.getIdentityNumber())
                 .brithOrAnniversary(client.getBrithOrAnniversary())
                 .address(client.getAddress())
                 .phone(client.getPhone())
@@ -51,6 +52,7 @@ public class ClientImplementation implements ClientService {
                 .id(id)
                 .typePerson(client.getTypePerson())
                 .gender(client.getGender())
+                .identityNumber(client.getIdentityNumber())
                 .firstName(client.getFirstName())
                 .lastName(client.getLastName())
                 .brithOrAnniversary(client.getBrithOrAnniversary())
@@ -71,6 +73,7 @@ public class ClientImplementation implements ClientService {
         ClientEntity clientFindOne = this.repository.findById(id).get();
         clientFindOne.setTypePerson(client.getTypePerson());
         clientFindOne.setGender(client.getGender());
+        clientFindOne.setIdentityNumber(client.getIdentityNumber());
         clientFindOne.setFirstName(client.getFirstName());
         clientFindOne.setLastName(client.getLastName());
         clientFindOne.setBrithOrAnniversary(client.getBrithOrAnniversary());

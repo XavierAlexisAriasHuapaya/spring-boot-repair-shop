@@ -1,9 +1,13 @@
 package dev.arias.huapaya.repair_shop.persistence.entity;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
+import dev.arias.huapaya.repair_shop.presentation.exception.ExceptionMessage;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -43,10 +47,6 @@ public class SaleEntity {
     private MasterDetailEntity paymentCondition;
 
     @ManyToOne
-    @JoinColumn(name = "paymentStatusId")
-    private MasterDetailEntity paymentStatus;
-
-    @ManyToOne
     @JoinColumn(name = "pettyCashId")
     private PettyCashEntity pettyCash;
 
@@ -66,11 +66,11 @@ public class SaleEntity {
 
     private Long number;
 
-    private LocalDateTime operationDate;
+    private LocalDate operationDate;
 
-    private LocalDateTime deliveryDate;
+    private LocalDate deliveryDate;
 
-    private LocalDateTime expirationDate;
+    private LocalDate expirationDate;
 
     @OneToMany(cascade = { CascadeType.MERGE, CascadeType.PERSIST }, fetch = FetchType.EAGER)
     @JoinColumn(name = "saleId")
@@ -98,6 +98,42 @@ public class SaleEntity {
         this.createdAt = LocalDateTime.now();
         this.updatedAt = LocalDateTime.now();
         this.status = true;
+        this.calculateTotals();
+        this.generatedSerieAndNumber();
+    }
+
+    private void calculateTotals() {
+        BigDecimal discount = BigDecimal.ZERO;
+        BigDecimal amount = BigDecimal.ZERO;
+        for (SaleDetailEntity details : this.saleDetails) {
+            BigDecimal quantity = BigDecimal.valueOf(details.getQuantity());
+            discount = discount.add(details.getDiscount());
+            amount = amount.add(quantity.multiply(details.getPrice()).subtract(details.getDiscount()));
+        }
+        this.saleDetails.stream()
+                .forEach(details -> {
+                    BigDecimal quantity = BigDecimal.valueOf(details.getQuantity());
+                    details.setTotalAmount(quantity.multiply(details.getPrice()).subtract(details.getDiscount()));
+                });
+        this.discount = discount;
+        this.saleAmount = amount;
+        this.subTotal = amount.divide(BigDecimal.valueOf(1.18), 2, RoundingMode.HALF_UP);
+    }
+
+    private void generatedSerieAndNumber() {
+        Optional<String> serieOpt = this.getDocument().getDocumentStore().stream()
+                .filter(docStore -> docStore.getStore().getId().equals(this.getStore().getId()))
+                .map(docStore -> docStore.getSerie())
+                .findFirst();
+        Optional<Long> numberOpt = this.getDocument().getDocumentStore().stream()
+                .filter(docStore -> docStore.getStore().getId().equals(this.getStore().getId()))
+                .map(docStore -> docStore.getNumber() + 1)
+                .findFirst();
+        if (!serieOpt.isPresent() || !numberOpt.isPresent()) {
+            throw new ExceptionMessage("Not found serie and number");
+        }
+        this.serie = serieOpt.get();
+        this.number = numberOpt.get();
     }
 
     @PreUpdate

@@ -36,6 +36,8 @@ public class ClientEntity {
     @ManyToOne
     @JoinColumn(name = "genderId")
     private MasterDetailEntity gender;
+    
+    private String identityNumber;
 
     private String firstName;
 

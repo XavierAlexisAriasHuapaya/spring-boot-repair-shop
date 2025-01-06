@@ -17,6 +17,8 @@ public class ClientUpdateDTO {
     private MasterDetailEntity typePerson;
 
     private MasterDetailEntity gender;
+    
+    private String identityNumber;
 
     private String firstName;
 
