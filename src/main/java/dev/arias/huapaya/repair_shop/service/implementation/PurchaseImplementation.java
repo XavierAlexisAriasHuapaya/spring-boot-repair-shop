@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -93,14 +94,38 @@ public class PurchaseImplementation implements PurchaseService {
 
     @Override
     public PageDTO<PurchasePaginationDTO> pagination(Pageable pageable) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'pagination'");
+        Page<PurchaseEntity> purchasePage = this.repository.findAll(pageable);
+        List<PurchasePaginationDTO> purchaseDTO = purchasePage.getContent().stream()
+                .map(purchase -> new PurchasePaginationDTO(purchase))
+                .toList();
+        return new PageDTO<>(purchaseDTO, purchasePage.getNumber(), purchasePage.getSize(),
+                purchasePage.getTotalElements());
     }
 
     @Override
     public Optional<PurchaseFindOneDTO> findOne(Long id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'findOne'");
+        Optional<PurchaseEntity> purchaseOpt = this.repository.findById(id);
+        if (!purchaseOpt.isPresent()) {
+            throw new ExceptionMessage("Not found purchase id: " + id);
+        }
+        PurchaseEntity purchase = purchaseOpt.get();
+        PurchaseFindOneDTO dto = PurchaseFindOneDTO.builder()
+                .id(id)
+                .supplier(purchase.getSupplier())
+                .orderStatus(purchase.getOrderStatus())
+                .store(purchase.getStore())
+                .observation(purchase.getObservation())
+                .operationDate(purchase.getOperationDate())
+                .purchaseDetails(purchase.getPurchaseDetails())
+                .exchangeRate(purchase.getExchangeRate())
+                .subTotal(purchase.getSubTotal())
+                .taxAmount(purchase.getTaxAmount())
+                .purchaseAmount(purchase.getPurchaseAmount())
+                .createdAt(purchase.getCreatedAt())
+                .updatedAt(purchase.getUpdatedAt())
+                .status(purchase.getStatus())
+                .build();
+        return Optional.of(dto);
     }
 
 }

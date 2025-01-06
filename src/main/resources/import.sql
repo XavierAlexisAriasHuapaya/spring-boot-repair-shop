@@ -59,6 +59,13 @@ INSERT INTO master_details (master_id, description, value) VALUES (12, 'PENDIENT
 INSERT INTO master_details (master_id, description, value) VALUES (12, 'ENTREGADO', '');
 INSERT INTO master_details (master_id, description, value) VALUES (12, 'POR ENTREGAR', '');
 
+INSERT INTO masters (description, status) VALUES ('Purchase Status', true);
+INSERT INTO master_details (master_id, description, value) VALUES (13, 'PENDIENTE', '');
+INSERT INTO master_details (master_id, description, value) VALUES (13, 'APROBADA', '');
+INSERT INTO master_details (master_id, description, value) VALUES (13, 'RECHAZADA', '');
+INSERT INTO master_details (master_id, description, value) VALUES (13, 'CERRADA', '');
+INSERT INTO master_details (master_id, description, value) VALUES (13, 'ANULADA', '');
+
 INSERT INTO business (country_id, company_name, phone, address, created_at, updated_at, status) VALUES (1, 'Digital Perú A&H', '989854252', 'Jr. Bolognesi', '2024-12-05 16:52:45.436', '2024-12-05 16:52:45.436', true);
 
 INSERT INTO roles (description, created_at, updated_at, status) VALUES ('Administrator', '2024-12-05 16:52:45.436', '2024-12-05 16:52:45.436', true);

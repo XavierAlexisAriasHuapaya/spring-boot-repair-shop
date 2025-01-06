@@ -6,9 +6,9 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import dev.arias.huapaya.repair_shop.persistence.entity.MasterDetailEntity;
+import dev.arias.huapaya.repair_shop.persistence.entity.PurchaseDetailEntity;
 import dev.arias.huapaya.repair_shop.persistence.entity.StoreEntity;
 import dev.arias.huapaya.repair_shop.persistence.entity.SupplierEntity;
-import dev.arias.huapaya.repair_shop.presentation.dto.purchase.details.PurchaseDetailCreateDTO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -30,9 +30,9 @@ public class PurchaseFindOneDTO {
 
     private LocalDate operationDate;
 
-    private List<PurchaseDetailCreateDTO> purchaseDetails;
+    private List<PurchaseDetailEntity> purchaseDetails;
 
-    private BigDecimal tax;
+    private BigDecimal exchangeRate;
 
     private BigDecimal subTotal;
 
