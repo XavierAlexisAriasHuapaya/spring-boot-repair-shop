@@ -117,6 +117,10 @@ public class MovementImplementation implements MovementService {
                         throw new ExceptionMessage("The exit movement cannot be performed");
                 }
 
+                if (inout.getQuantity() > productStoreOpt.get().getStock()) {
+                        throw new ExceptionMessage("The quantity entered is greater than the product stock");
+                }
+
                 Optional<ProductEntity> productOpt = this.productService
                                 .findById(inout.getProduct().getId());
                 if (!productOpt.isPresent()) {
