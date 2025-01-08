@@ -6,7 +6,6 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import dev.arias.huapaya.repair_shop.presentation.exception.ExceptionMessage;
 import jakarta.persistence.Column;
@@ -19,7 +18,6 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
-import jakarta.persistence.Transient;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -134,17 +132,7 @@ public class PaymentEntity {
             if (this.getAmount().compareTo(pendingAmountSale) > 0) {
                 throw new ExceptionMessage("The amount is greater than the pending sale");
             }
-
-            this.setPaidSale(false);
-
-            if (this.getAmount().compareTo(pendingAmountSale) == 0) {
-                this.setPaidSale(true);
-            }
         }
     }
-
-    @Transient
-    @JsonIgnore
-    private Boolean paidSale;
 
 }
