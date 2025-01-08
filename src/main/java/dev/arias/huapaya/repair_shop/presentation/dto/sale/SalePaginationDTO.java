@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 
+import dev.arias.huapaya.repair_shop.persistence.entity.PaymentEntity;
 import dev.arias.huapaya.repair_shop.persistence.entity.SaleDetailEntity;
 import dev.arias.huapaya.repair_shop.persistence.entity.SaleEntity;
 import lombok.AllArgsConstructor;
@@ -29,7 +30,11 @@ public class SalePaginationDTO {
 
     private List<SaleDetailEntity> saleDetails;
 
-    private BigDecimal saleAmount;
+    private BigDecimal totalSaleAmount;
+
+    private BigDecimal totalPaid;
+
+    private BigDecimal remainingAmount;
 
     public SalePaginationDTO(SaleEntity sale) {
         this.id = sale.getId();
@@ -49,7 +54,20 @@ public class SalePaginationDTO {
                 .toString();
         this.operationDate = sale.getOperationDate();
         this.saleDetails = sale.getSaleDetails();
-        this.saleAmount = sale.getSaleAmount();
+        this.totalSaleAmount = sale.getSaleAmount();
+        if (sale.getPayments() != null) {
+            BigDecimal account = BigDecimal.ZERO;
+            for (PaymentEntity payment : sale.getPayments()) {
+                if (payment.getStatus()) {
+                    account = account.add(payment.getAmount());
+                }
+            }
+            this.totalPaid = account;
+            this.remainingAmount = this.totalSaleAmount.subtract(totalPaid);
+        } else {
+            this.totalPaid = BigDecimal.ZERO;
+            this.remainingAmount = this.totalSaleAmount;
+        }
     }
 
 }
