@@ -47,7 +47,7 @@ public class PaymentFindOneDTO {
 
     private String observation;
 
-    private Boolean paid;
+    private Boolean invoiced;
 
     private BigDecimal exchangeRate;
 

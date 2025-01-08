@@ -61,6 +61,8 @@ public class SaleFindOneDTO {
 
     private List<PaymentEntity> payments;
 
+    private Boolean paid;
+
     private LocalDateTime createdAt;
 
     private LocalDateTime updatedAt;

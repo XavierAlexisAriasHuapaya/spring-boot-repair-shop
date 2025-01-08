@@ -8,7 +8,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import dev.arias.huapaya.repair_shop.persistence.entity.PaymentEntity;
+import dev.arias.huapaya.repair_shop.persistence.entity.SaleEntity;
 import dev.arias.huapaya.repair_shop.persistence.repository.PaymentRepository;
+import dev.arias.huapaya.repair_shop.persistence.repository.SaleRepository;
 import dev.arias.huapaya.repair_shop.presentation.dto.main.PageDTO;
 import dev.arias.huapaya.repair_shop.presentation.dto.payment.PaymentCreateDTO;
 import dev.arias.huapaya.repair_shop.presentation.dto.payment.PaymentFindOneDTO;
@@ -23,12 +25,23 @@ public class PaymentImplementation implements PaymentService {
 
     private final PaymentRepository repository;
 
+    private final SaleRepository saleRepository;
+
     @Override
     public PaymentEntity create(PaymentCreateDTO payment) {
+        Optional<SaleEntity> saleOpt = Optional.empty();
+        SaleEntity saleFindOne = null;
+        if (payment.getSale() != null) {
+            saleOpt = this.saleRepository.findById(payment.getSale().getId());
+            if (saleOpt.isEmpty()) {
+                throw new ExceptionMessage("Not found sale id: " + payment.getSale().getId());
+            }
+            saleFindOne = saleOpt.get();
+        }
         PaymentEntity paymentCreate = PaymentEntity.builder()
                 .typeOperation(payment.getTypeOperation())
                 .pettyCash(payment.getPettyCash())
-                .sale(payment.getSale())
+                .sale(saleFindOne)
                 .purchase(payment.getPurchase())
                 .methodPayment(payment.getMethodPayment())
                 .cardType(payment.getCardType())
@@ -66,7 +79,7 @@ public class PaymentImplementation implements PaymentService {
                 .store(payment.getStore())
                 .operationDate(payment.getOperationDate())
                 .observation(payment.getObservation())
-                .paid(payment.getPaid())
+                .invoiced(payment.getInvoiced())
                 .exchangeRate(payment.getExchangeRate())
                 .taxAmount(payment.getTaxAmount())
                 .subTotal(payment.getSubTotal())
