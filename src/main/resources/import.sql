@@ -66,6 +66,35 @@ INSERT INTO master_details (master_id, description, value) VALUES (13, 'RECHAZAD
 INSERT INTO master_details (master_id, description, value) VALUES (13, 'CERRADA', '');
 INSERT INTO master_details (master_id, description, value) VALUES (13, 'ANULADA', '');
 
+INSERT INTO masters (description, status) VALUES ('Type Operation', true);
+INSERT INTO master_details (master_id, description, value) VALUES (14, 'INGRESOS POR VENTAS', 'I');
+INSERT INTO master_details (master_id, description, value) VALUES (14, 'TRANSFERENCIA', 'E');
+INSERT INTO master_details (master_id, description, value) VALUES (14, 'PAGO DE NOTA DE CREDITO', 'E');
+INSERT INTO master_details (master_id, description, value) VALUES (14, 'PAGO A PROVEEDOR', 'E');
+INSERT INTO master_details (master_id, description, value) VALUES (14, 'PAGO DE LETRA', 'I');
+INSERT INTO master_details (master_id, description, value) VALUES (14, 'ARTICULOS DE OFICINA', 'E');
+INSERT INTO master_details (master_id, description, value) VALUES (14, 'UTILES DE LIMPIEZA', 'E');
+INSERT INTO master_details (master_id, description, value) VALUES (14, 'SUELDO', 'E');
+INSERT INTO master_details (master_id, description, value) VALUES (14, 'EGRESOS VARIOS', 'E');
+INSERT INTO master_details (master_id, description, value) VALUES (14, 'INGRESOS VARIOS', 'I');
+INSERT INTO master_details (master_id, description, value) VALUES (14, 'MOVILIDAD', 'E');
+INSERT INTO master_details (master_id, description, value) VALUES (14, 'MENU', 'E');
+
+INSERT INTO masters (description, status) VALUES ('Method Payment', true);
+INSERT INTO master_details (master_id, description, value) VALUES (15, 'EFECTIVO', '');
+INSERT INTO master_details (master_id, description, value) VALUES (15, 'TARJETA', '');
+INSERT INTO master_details (master_id, description, value) VALUES (15, 'NOTA DE CREDITO', '');
+
+INSERT INTO masters (description, status) VALUES ('Type Card', true);
+INSERT INTO master_details (master_id, description, value) VALUES (16, 'TRANFERENCIA INTERBANK', '');
+INSERT INTO master_details (master_id, description, value) VALUES (16, 'TRANFERENCIA BCP', '');
+INSERT INTO master_details (master_id, description, value) VALUES (16, 'TRANSFERENCIA BBVA', '');
+INSERT INTO master_details (master_id, description, value) VALUES (16, 'PLIN', '');
+INSERT INTO master_details (master_id, description, value) VALUES (16, 'YAPE', '');
+INSERT INTO master_details (master_id, description, value) VALUES (16, 'POS IZIPAY', '');
+INSERT INTO master_details (master_id, description, value) VALUES (16, 'POS VENDE MAS', '');
+INSERT INTO master_details (master_id, description, value) VALUES (16, 'MASTERCARD', '');
+
 INSERT INTO business (country_id, company_name, phone, address, created_at, updated_at, status) VALUES (1, 'Digital Perú A&H', '989854252', 'Jr. Bolognesi', '2024-12-05 16:52:45.436', '2024-12-05 16:52:45.436', true);
 
 INSERT INTO roles (description, created_at, updated_at, status) VALUES ('Administrator', '2024-12-05 16:52:45.436', '2024-12-05 16:52:45.436', true);

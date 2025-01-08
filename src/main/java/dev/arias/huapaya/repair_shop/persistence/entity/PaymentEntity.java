@@ -1,6 +1,8 @@
 package dev.arias.huapaya.repair_shop.persistence.entity;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import jakarta.persistence.Column;
@@ -32,22 +34,26 @@ public class PaymentEntity {
 
     @ManyToOne
     @JoinColumn(name = "typeOperationId")
-    private DocumentEntity typeOperation;
+    private MasterDetailEntity typeOperation;
 
     @ManyToOne
     @JoinColumn(name = "pettyCashId")
     private PettyCashEntity pettyCash;
 
     @ManyToOne
-    @JoinColumn(name = "saleId")
+    @JoinColumn(name = "saleId", nullable = true)
     private SaleEntity sale;
 
     @ManyToOne
-    @JoinColumn(name = "methodPaymentId")
+    @JoinColumn(name = "purchaseId", nullable = true)
+    private PurchaseEntity purchase;
+
+    @ManyToOne
+    @JoinColumn(name = "methodPaymentId", nullable = true)
     private MasterDetailEntity methodPayment;
 
     @ManyToOne
-    @JoinColumn(name = "cardTypeId")
+    @JoinColumn(name = "cardTypeId", nullable = true)
     private MasterDetailEntity cardType;
 
     @ManyToOne
@@ -66,15 +72,21 @@ public class PaymentEntity {
     @JoinColumn(name = "storeId")
     private StoreEntity store;
 
-    private LocalDateTime operationDate;
+    private LocalDate operationDate;
 
     private String observation;
 
-    private boolean paid;
+    private Boolean paid;
+
+    private BigDecimal exchangeRate;
+
+    private BigDecimal taxAmount;
+
+    private BigDecimal subTotal;
 
     private BigDecimal amount;
 
-    private boolean impactPettyCash;
+    private Boolean impactPettyCash;
 
     @Column(updatable = false)
     private LocalDateTime createdAt;
@@ -88,6 +100,8 @@ public class PaymentEntity {
         this.createdAt = LocalDateTime.now();
         this.updatedAt = LocalDateTime.now();
         this.status = true;
+        this.paid = false;
+        this.calculateTotals();
     }
 
     @PreUpdate
@@ -95,4 +109,10 @@ public class PaymentEntity {
         this.updatedAt = LocalDateTime.now();
         this.status = true;
     }
+
+    private void calculateTotals() {
+        this.subTotal = this.amount.divide(BigDecimal.valueOf(1.18), 2, RoundingMode.HALF_UP);
+        this.taxAmount = this.amount.subtract(this.subTotal);
+    }
+
 }
