@@ -37,6 +37,10 @@ public class MovementEntity {
     private Long id;
 
     @ManyToOne
+    @JoinColumn(name = "supplierId", nullable = true)
+    private SupplierEntity supplier;
+
+    @ManyToOne
     @JoinColumn(name = "reasonId")
     private MasterDetailEntity reason;
 

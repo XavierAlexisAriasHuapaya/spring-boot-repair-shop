@@ -295,6 +295,7 @@ public class MovementImplementation implements MovementService {
                 }
 
                 MovementEntity movementCreate = MovementEntity.builder()
+                                .supplier(data.getSupplier())
                                 .reason(data.getReason())
                                 .originStore(data.getOriginStore())
                                 .destinationStore(data.getDestinationStore())

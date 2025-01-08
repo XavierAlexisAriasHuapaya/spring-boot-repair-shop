@@ -8,6 +8,7 @@ import dev.arias.huapaya.repair_shop.persistence.entity.MasterDetailEntity;
 import dev.arias.huapaya.repair_shop.persistence.entity.MovementEntity;
 import dev.arias.huapaya.repair_shop.persistence.entity.SaleEntity;
 import dev.arias.huapaya.repair_shop.persistence.entity.StoreEntity;
+import dev.arias.huapaya.repair_shop.persistence.entity.SupplierEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -16,6 +17,8 @@ import lombok.Data;
 @Data
 @Builder
 public class MovementCreateDTO {
+
+    private SupplierEntity supplier;
 
     private MasterDetailEntity reason;
 

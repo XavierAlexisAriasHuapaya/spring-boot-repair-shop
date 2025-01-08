@@ -74,6 +74,7 @@ public class PurchaseImplementation implements PurchaseService {
 
         Optional<MasterDetailEntity> reason = this.masterDetailRepository.findById(25L);
         MovementCreateDTO movementDto = MovementCreateDTO.builder()
+                .supplier(purcharse.getSupplier())
                 .reason(reason.get())
                 .originStore(purcharse.getStore())
                 .destinationStore(null)
