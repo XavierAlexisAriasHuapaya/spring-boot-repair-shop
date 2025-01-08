@@ -5,6 +5,8 @@ import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -42,6 +44,7 @@ public class PaymentEntity {
 
     @ManyToOne
     @JoinColumn(name = "saleId", nullable = true)
+    @JsonBackReference
     private SaleEntity sale;
 
     @ManyToOne

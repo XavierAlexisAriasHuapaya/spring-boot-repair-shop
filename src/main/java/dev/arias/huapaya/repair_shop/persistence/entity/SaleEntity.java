@@ -7,6 +7,8 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import dev.arias.huapaya.repair_shop.presentation.exception.ExceptionMessage;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -87,6 +89,10 @@ public class SaleEntity {
     private BigDecimal discount;
 
     private BigDecimal exchangeRate;
+
+    @OneToMany(mappedBy = "sale", fetch = FetchType.LAZY)
+    @JsonManagedReference
+    private List<PaymentEntity> payments;
 
     @Column(updatable = false)
     private LocalDateTime createdAt;

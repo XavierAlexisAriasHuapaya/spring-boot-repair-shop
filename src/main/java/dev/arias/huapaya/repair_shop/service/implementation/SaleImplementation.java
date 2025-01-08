@@ -133,6 +133,8 @@ public class SaleImplementation implements SaleService {
                 .taxAmount(sale.getTaxAmount())
                 .subTotal(sale.getSubTotal())
                 .discount(sale.getDiscount())
+                .exchangeRate(sale.getExchangeRate())
+                .payments(sale.getPayments())
                 .createdAt(sale.getCreatedAt())
                 .updatedAt(sale.getUpdatedAt())
                 .status(sale.getStatus())

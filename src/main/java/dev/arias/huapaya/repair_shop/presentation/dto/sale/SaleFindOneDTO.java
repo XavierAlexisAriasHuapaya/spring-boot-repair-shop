@@ -8,6 +8,7 @@ import java.util.List;
 import dev.arias.huapaya.repair_shop.persistence.entity.ClientEntity;
 import dev.arias.huapaya.repair_shop.persistence.entity.DocumentEntity;
 import dev.arias.huapaya.repair_shop.persistence.entity.MasterDetailEntity;
+import dev.arias.huapaya.repair_shop.persistence.entity.PaymentEntity;
 import dev.arias.huapaya.repair_shop.persistence.entity.PettyCashEntity;
 import dev.arias.huapaya.repair_shop.persistence.entity.SaleDetailEntity;
 import dev.arias.huapaya.repair_shop.persistence.entity.StoreEntity;
@@ -55,6 +56,10 @@ public class SaleFindOneDTO {
     private BigDecimal subTotal;
 
     private BigDecimal discount;
+
+    private BigDecimal exchangeRate;
+
+    private List<PaymentEntity> payments;
 
     private LocalDateTime createdAt;
 
