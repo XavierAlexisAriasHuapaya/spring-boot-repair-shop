@@ -68,7 +68,9 @@ public class PaymentPaginationDTO {
                                                 .append(payment.getSaleBill().getNumber().toString()).toString();
                 this.store = payment.getStore().getName();
                 this.operationDate = payment.getOperationDate();
-                this.paid = payment.getInvoiced() ? "FACTURADO" : "PENDIENTE";
+                this.paid = (payment.getSale() == null && payment.getPurchaseBill() == null) ? "PAGADO"
+                                : payment.getSale() != null ? payment.getInvoiced() ? "FACTURADO" : "PENDIENTE"
+                                                : payment.getPurchaseBill() != null ? "FACTURADO" : "PENDIENTE";
                 this.taxAmount = payment.getTaxAmount();
                 this.subTotal = payment.getSubTotal();
                 this.amount = payment.getAmount();
