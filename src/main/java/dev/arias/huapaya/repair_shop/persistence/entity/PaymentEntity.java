@@ -45,12 +45,8 @@ public class PaymentEntity {
 
     @ManyToOne
     @JoinColumn(name = "saleId", nullable = true)
-    @JsonBackReference
+    @JsonBackReference("sale-Payments")
     private SaleEntity sale;
-
-    @ManyToOne
-    @JoinColumn(name = "purchaseId", nullable = true)
-    private PurchaseEntity purchase;
 
     @ManyToOne
     @JoinColumn(name = "methodPaymentId", nullable = true)
@@ -66,6 +62,7 @@ public class PaymentEntity {
 
     @ManyToOne
     @JoinColumn(name = "purchaseBillId", nullable = true)
+    @JsonBackReference("purchaseBills-Payments")
     private PurchaseBillEntity purchaseBill;
 
     @ManyToOne
@@ -121,16 +118,35 @@ public class PaymentEntity {
     }
 
     private void paymentSaleOrPurchase() {
-        BigDecimal amountSale = this.getSale().getSaleAmount();
         BigDecimal onAccount = BigDecimal.ZERO;
         BigDecimal pendingAmountSale = BigDecimal.ZERO;
-        if (this.getSale().getPayments() != null) {
-            for (PaymentEntity payments : this.getSale().getPayments()) {
-                onAccount = payments.getStatus() ? onAccount.add(payments.getAmount()) : onAccount.add(BigDecimal.ZERO);
+        BigDecimal pendingAmountPurchaseBill = BigDecimal.ZERO;
+        BigDecimal amountSale = this.getSale() != null ? this.getSale().getSaleAmount()
+                : BigDecimal.ZERO;
+        BigDecimal amounPurchase = this.getPurchaseBill() != null && this.getPurchaseBill().getPurchase() != null
+                ? this.getPurchaseBill().getPurchase().getPurchaseAmount()
+                : BigDecimal.ZERO;
+        if (this.getSale() != null) {
+            if (this.getSale().getPayments() != null) {
+                for (PaymentEntity payments : this.getSale().getPayments()) {
+                    onAccount = payments.getStatus() ? onAccount.add(payments.getAmount())
+                            : onAccount.add(BigDecimal.ZERO);
+                }
+                pendingAmountSale = amountSale.subtract(onAccount);
+                if (this.getAmount().compareTo(pendingAmountSale) > 0) {
+                    throw new ExceptionMessage("The amount is greater than the pending sale");
+                }
             }
-            pendingAmountSale = amountSale.subtract(onAccount);
-            if (this.getAmount().compareTo(pendingAmountSale) > 0) {
-                throw new ExceptionMessage("The amount is greater than the pending sale");
+        } else if (this.getPurchaseBill() != null) {
+            if (this.getPurchaseBill().getPayments() != null) {
+                for (PaymentEntity payments : this.getPurchaseBill().getPayments()) {
+                    onAccount = payments.getStatus() ? onAccount.add(payments.getAmount())
+                            : onAccount.add(BigDecimal.ZERO);
+                }
+                pendingAmountPurchaseBill = amounPurchase.subtract(onAccount);
+                if (this.getAmount().compareTo(pendingAmountPurchaseBill) > 0) {
+                    throw new ExceptionMessage("The amount is greater than the pending purchase");
+                }
             }
         }
     }

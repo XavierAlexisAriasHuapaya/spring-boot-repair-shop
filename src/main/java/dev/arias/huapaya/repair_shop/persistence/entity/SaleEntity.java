@@ -91,7 +91,7 @@ public class SaleEntity {
     private BigDecimal exchangeRate;
 
     @OneToMany(mappedBy = "sale", fetch = FetchType.LAZY)
-    @JsonManagedReference
+    @JsonManagedReference("sale-Payments")
     private List<PaymentEntity> payments;
 
     @Column(updatable = false)

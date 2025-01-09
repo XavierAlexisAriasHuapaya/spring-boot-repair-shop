@@ -7,7 +7,6 @@ import dev.arias.huapaya.repair_shop.persistence.entity.CreditNoteEntity;
 import dev.arias.huapaya.repair_shop.persistence.entity.MasterDetailEntity;
 import dev.arias.huapaya.repair_shop.persistence.entity.PettyCashEntity;
 import dev.arias.huapaya.repair_shop.persistence.entity.PurchaseBillEntity;
-import dev.arias.huapaya.repair_shop.persistence.entity.PurchaseEntity;
 import dev.arias.huapaya.repair_shop.persistence.entity.SaleBillEntity;
 import dev.arias.huapaya.repair_shop.persistence.entity.SaleEntity;
 import dev.arias.huapaya.repair_shop.persistence.entity.StoreEntity;
@@ -25,8 +24,6 @@ public class PaymentCreateDTO {
     private PettyCashEntity pettyCash;
 
     private SaleEntity sale;
-
-    private PurchaseEntity purchase;
 
     private MasterDetailEntity methodPayment;
 

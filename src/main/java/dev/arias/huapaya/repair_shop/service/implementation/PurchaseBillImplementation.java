@@ -50,6 +50,7 @@ public class PurchaseBillImplementation implements PurchaseBillService {
                 .number(purchaseBill.getNumber())
                 .operationDate(purchaseBill.getOperationDate())
                 .observation(purchaseBill.getObservation())
+                .payments(purchaseBill.getPayments())
                 .createdAt(purchaseBill.getCreatedAt())
                 .status(purchaseBill.getStatus())
                 .build();

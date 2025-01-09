@@ -8,8 +8,11 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import dev.arias.huapaya.repair_shop.persistence.entity.PaymentEntity;
+import dev.arias.huapaya.repair_shop.persistence.entity.PurchaseBillEntity;
+import dev.arias.huapaya.repair_shop.persistence.entity.PurchaseEntity;
 import dev.arias.huapaya.repair_shop.persistence.entity.SaleEntity;
 import dev.arias.huapaya.repair_shop.persistence.repository.PaymentRepository;
+import dev.arias.huapaya.repair_shop.persistence.repository.PurchaseBillRepository;
 import dev.arias.huapaya.repair_shop.persistence.repository.SaleRepository;
 import dev.arias.huapaya.repair_shop.presentation.dto.main.PageDTO;
 import dev.arias.huapaya.repair_shop.presentation.dto.payment.PaymentCreateDTO;
@@ -27,9 +30,14 @@ public class PaymentImplementation implements PaymentService {
 
     private final SaleRepository saleRepository;
 
+    private final PurchaseBillRepository purchaseBillRepository;
+
     @Override
     public PaymentEntity create(PaymentCreateDTO payment) {
         Optional<SaleEntity> saleOpt = Optional.empty();
+        Optional<PurchaseBillEntity> purchaseBillOpt = Optional.empty();
+        PurchaseEntity purchaseFindOne = null;
+        PurchaseBillEntity purchaseBillFindOne = null;
         SaleEntity saleFindOne = null;
         if (payment.getSale() != null) {
             saleOpt = this.saleRepository.findById(payment.getSale().getId());
@@ -37,12 +45,23 @@ public class PaymentImplementation implements PaymentService {
                 throw new ExceptionMessage("Not found sale id: " + payment.getSale().getId());
             }
             saleFindOne = saleOpt.get();
+        } else if (payment.getPurchaseBill() != null) {
+            purchaseBillOpt = this.purchaseBillRepository.findById(payment.getPurchaseBill().getId());
+            if (purchaseBillOpt.isEmpty()) {
+                throw new ExceptionMessage("Not found purchase bill id: " + payment.getPurchaseBill().getId());
+            }
+            purchaseBillFindOne = purchaseBillOpt.get();
+            purchaseFindOne = purchaseBillOpt.get().getPurchase();
+            if (purchaseBillOpt.isEmpty()) {
+                throw new ExceptionMessage("Not found purchase");
+            }
+            purchaseBillFindOne.setPurchase(purchaseFindOne);
+            payment.setPurchaseBill(purchaseBillFindOne);
         }
         PaymentEntity paymentCreate = PaymentEntity.builder()
                 .typeOperation(payment.getTypeOperation())
                 .pettyCash(payment.getPettyCash())
                 .sale(saleFindOne)
-                .purchase(payment.getPurchase())
                 .methodPayment(payment.getMethodPayment())
                 .cardType(payment.getCardType())
                 .creditNote(payment.getCreditNote())
@@ -70,7 +89,6 @@ public class PaymentImplementation implements PaymentService {
                 .typeOperation(payment.getTypeOperation())
                 .pettyCash(payment.getPettyCash())
                 .sale(payment.getSale())
-                .purchase(payment.getPurchase())
                 .methodPayment(payment.getMethodPayment())
                 .cardType(payment.getCardType())
                 .creditNote(payment.getCreditNote())
