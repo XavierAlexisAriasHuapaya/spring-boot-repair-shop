@@ -95,6 +95,9 @@ INSERT INTO master_details (master_id, description, value) VALUES (16, 'POS IZIP
 INSERT INTO master_details (master_id, description, value) VALUES (16, 'POS VENDE MAS', '');
 INSERT INTO master_details (master_id, description, value) VALUES (16, 'MASTERCARD', '');
 
+
+INSERT INTO master_details (master_id, description, value) VALUES (10, 'NOTA DE CREDITO', 'I');
+
 INSERT INTO business (country_id, company_name, phone, address, created_at, updated_at, status) VALUES (1, 'Digital Perú A&H', '989854252', 'Jr. Bolognesi', '2024-12-05 16:52:45.436', '2024-12-05 16:52:45.436', true);
 
 INSERT INTO roles (description, created_at, updated_at, status) VALUES ('Administrator', '2024-12-05 16:52:45.436', '2024-12-05 16:52:45.436', true);

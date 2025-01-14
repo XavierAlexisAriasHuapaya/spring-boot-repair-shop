@@ -59,7 +59,15 @@ public class CreditNoteEntity {
 
     private Integer number;
 
+    private BigDecimal taxAmount;
+
+    private BigDecimal subTotal;
+
     private BigDecimal amount;
+
+    private BigDecimal exchangeRate;
+
+    private BigDecimal tax;
 
     private LocalDate operationDate;
 
