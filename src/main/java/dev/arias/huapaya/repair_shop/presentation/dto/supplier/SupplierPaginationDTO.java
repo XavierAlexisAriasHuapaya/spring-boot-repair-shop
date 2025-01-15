@@ -1,6 +1,5 @@
 package dev.arias.huapaya.repair_shop.presentation.dto.supplier;
 
-import dev.arias.huapaya.repair_shop.persistence.entity.MasterDetailEntity;
 import dev.arias.huapaya.repair_shop.persistence.entity.SupplierEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -13,9 +12,9 @@ public class SupplierPaginationDTO {
 
     private Long id;
 
-    private MasterDetailEntity typeSupplier;
-    
-    private MasterDetailEntity country;
+    private String typeSupplier;
+
+    private String country;
 
     private String companyName;
 
@@ -31,8 +30,8 @@ public class SupplierPaginationDTO {
 
     public SupplierPaginationDTO(SupplierEntity supplier) {
         this.id = supplier.getId();
-        this.typeSupplier = supplier.getTypeSupplier();
-        this.country = supplier.getCountry();
+        this.typeSupplier = supplier.getTypeSupplier().getDescription();
+        this.country = supplier.getCountry().getDescription();
         this.companyName = supplier.getCompanyName();
         this.identityNumber = supplier.getIdentityNumber();
         this.address = supplier.getAddress();
