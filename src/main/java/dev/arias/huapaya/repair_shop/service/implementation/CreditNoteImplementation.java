@@ -71,7 +71,7 @@ public class CreditNoteImplementation implements CreditNoteService {
 
         CreditNoteEntity creditNoteCreate = CreditNoteEntity.builder()
                 .document(creditNote.getDocument())
-                .saleBill(creditNote.getSaleBill())
+                .saleBill(saleBill)
                 .movement(movement)
                 .client(creditNote.getClient())
                 .store(creditNote.getStore())

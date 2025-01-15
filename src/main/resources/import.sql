@@ -117,6 +117,11 @@ INSERT INTO document_stores (document_id, store_id, serie, number, created_at, u
 INSERT INTO documents (name, abbreviation, sale, bill, created_at, updated_at, status) VALUES ('FACTURA ELECTRONICA', 'FE', false, false, '2024-12-05 16:52:45.436', '2024-12-05 16:52:45.436', true);
 INSERT INTO documents (name, abbreviation, sale, bill, created_at, updated_at, status) VALUES ('BOLETA ELECTRONICA', 'FE', false, false, '2024-12-05 16:52:45.436', '2024-12-05 16:52:45.436', true);
 
+INSERT INTO documents (name, abbreviation, sale, bill, created_at, updated_at, status) VALUES ('FACTURA DE VENTA', 'FV', false, true, '2024-12-05 16:52:45.436', '2024-12-05 16:52:45.436', true);
+INSERT INTO document_stores (document_id, store_id, serie, number, created_at, updated_at, status) VALUES (4, 1, 'F001', 0, '2024-12-05 16:52:45.436', '2024-12-05 16:52:45.436', true);
+INSERT INTO document_stores (document_id, store_id, serie, number, created_at, updated_at, status) VALUES (4, 2, 'F002', 0, '2024-12-05 16:52:45.436', '2024-12-05 16:52:45.436', true);
+
+
 INSERT INTO clients (type_person_id, gender_id, identity_number, first_name, last_name, brith_or_anniversary, address, phone, email, occupation, observation, created_at, updated_at, status) VALUES (7, 9, '15415874', 'Manuel Alberto', 'Zevallos Casas', '1984-01-15', null, null, null, null, null, '2024-12-05 16:52:45.436', '2024-12-05 16:52:45.436', true);
 INSERT INTO clients (type_person_id, gender_id, identity_number, first_name, last_name, brith_or_anniversary, address, phone, email, occupation, observation, created_at, updated_at, status) VALUES (8, 9, '20606825570', 'S & S CONSULTORES Y SERVICIOS GENERALES SOCIEDAD ANONIMA CERRADA', '', '2020-05-20', 'CAL.BENITO BONIFAZ NRO. 161 INT. 2 URB. FERROVIARIOS AREQUIPA - AREQUIPA - AREQUIPA', null, null, null, null, '2024-12-05 16:52:45.436', '2024-12-05 16:52:45.436', true);
 

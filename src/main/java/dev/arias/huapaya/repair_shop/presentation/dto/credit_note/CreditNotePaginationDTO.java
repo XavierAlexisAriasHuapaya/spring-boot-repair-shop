@@ -47,6 +47,13 @@ public class CreditNotePaginationDTO {
                 .append("-")
                 .append(creditNote.getNumber().toString())
                 .toString();
+        this.saleBill = new StringBuilder()
+                .append(creditNote.getSaleBill().getDocument().getName())
+                .append(" ")
+                .append(creditNote.getSaleBill().getSerie())
+                .append("-")
+                .append(creditNote.getSaleBill().getNumber().toString())
+                .toString();
         this.client = new StringBuilder(creditNote.getClient().getFirstName())
                 .append(" ")
                 .append(creditNote.getClient().getLastName()).toString();

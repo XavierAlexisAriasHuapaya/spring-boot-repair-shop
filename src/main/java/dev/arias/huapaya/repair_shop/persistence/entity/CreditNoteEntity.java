@@ -1,6 +1,7 @@
 package dev.arias.huapaya.repair_shop.persistence.entity;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
@@ -85,11 +86,23 @@ public class CreditNoteEntity {
         this.createdAt = LocalDateTime.now();
         this.updatedAt = LocalDateTime.now();
         this.status = true;
+        this.calculateTotals();
     }
 
     @PreUpdate
     private void preUpdate() {
         this.updatedAt = LocalDateTime.now();
         this.status = true;
+    }
+
+    private void calculateTotals() {
+        BigDecimal amount = BigDecimal.ZERO;
+        for (SaleDetailEntity details : this.getSaleBill().getSale().getSaleDetails()) {
+            BigDecimal quantity = BigDecimal.valueOf(details.getQuantity());
+            amount = amount.add(quantity.multiply(details.getPrice()).subtract(details.getDiscount()));
+        }
+        this.amount = amount;
+        this.subTotal = amount.divide(BigDecimal.valueOf(1.18), 2, RoundingMode.HALF_UP);
+        this.taxAmount = this.amount.subtract(this.subTotal);
     }
 }
