@@ -27,6 +27,7 @@ public class SupplierImplementation implements SupplierService {
     public SupplierEntity create(SupplierCreateDTO data) {
         SupplierEntity supplierCreate = SupplierEntity.builder()
                 .typeSupplier(data.getTypeSupplier())
+                .country(data.getCountry())
                 .companyName(data.getCompanyName())
                 .identityNumber(data.getIdentityNumber())
                 .address(data.getAddress())
@@ -45,6 +46,7 @@ public class SupplierImplementation implements SupplierService {
         SupplierEntity supplierUpdate = SupplierEntity.builder()
                 .id(id)
                 .typeSupplier(data.getTypeSupplier())
+                .country(data.getCountry())
                 .companyName(data.getCompanyName())
                 .identityNumber(data.getIdentityNumber())
                 .address(data.getAddress())
@@ -64,6 +66,7 @@ public class SupplierImplementation implements SupplierService {
         SupplierFindOneDTO dto = SupplierFindOneDTO.builder()
                 .id(id)
                 .typeSupplier(supplier.getTypeSupplier())
+                .country(supplier.getCountry())
                 .companyName(supplier.getCompanyName())
                 .identityNumber(supplier.getIdentityNumber())
                 .address(supplier.getAddress())

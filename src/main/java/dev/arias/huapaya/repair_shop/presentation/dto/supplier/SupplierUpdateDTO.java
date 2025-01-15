@@ -11,6 +11,8 @@ import lombok.Data;
 public class SupplierUpdateDTO {
 
     private MasterDetailEntity typeSupplier;
+    
+    private MasterDetailEntity country;
 
     private String companyName;
 

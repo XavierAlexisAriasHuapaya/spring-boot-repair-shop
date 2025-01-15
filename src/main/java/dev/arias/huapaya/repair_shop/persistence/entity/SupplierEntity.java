@@ -33,6 +33,10 @@ public class SupplierEntity {
     @JoinColumn(name = "typeSupplierId")
     private MasterDetailEntity typeSupplier;
 
+    @ManyToOne
+    @JoinColumn(name = "countryId")
+    private MasterDetailEntity country;
+
     private String companyName;
 
     private String identityNumber;

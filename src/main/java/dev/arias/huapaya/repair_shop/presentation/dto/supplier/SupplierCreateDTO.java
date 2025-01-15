@@ -12,6 +12,8 @@ public class SupplierCreateDTO {
 
     private MasterDetailEntity typeSupplier;
 
+    private MasterDetailEntity country;
+
     private String companyName;
 
     private String identityNumber;

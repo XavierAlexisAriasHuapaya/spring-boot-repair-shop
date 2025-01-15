@@ -16,6 +16,8 @@ public class SupplierFindOneDTO {
 
     private MasterDetailEntity typeSupplier;
 
+    private MasterDetailEntity country;
+
     private String companyName;
 
     private String identityNumber;

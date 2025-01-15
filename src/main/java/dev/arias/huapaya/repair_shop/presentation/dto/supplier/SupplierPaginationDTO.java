@@ -14,6 +14,8 @@ public class SupplierPaginationDTO {
     private Long id;
 
     private MasterDetailEntity typeSupplier;
+    
+    private MasterDetailEntity country;
 
     private String companyName;
 
@@ -30,6 +32,7 @@ public class SupplierPaginationDTO {
     public SupplierPaginationDTO(SupplierEntity supplier) {
         this.id = supplier.getId();
         this.typeSupplier = supplier.getTypeSupplier();
+        this.country = supplier.getCountry();
         this.companyName = supplier.getCompanyName();
         this.identityNumber = supplier.getIdentityNumber();
         this.address = supplier.getAddress();
