@@ -1,7 +1,6 @@
 package dev.arias.huapaya.repair_shop.presentation.dto.client;
 
 import dev.arias.huapaya.repair_shop.persistence.entity.ClientEntity;
-import dev.arias.huapaya.repair_shop.persistence.entity.MasterDetailEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -15,7 +14,7 @@ public class ClientPaginationDTO {
 
     private Long id;
 
-    private MasterDetailEntity typePerson;
+    private String typePerson;
 
     private String identityNumber;
 
@@ -29,7 +28,7 @@ public class ClientPaginationDTO {
 
     public ClientPaginationDTO(ClientEntity client) {
         this.id = client.getId();
-        this.typePerson = client.getTypePerson();
+        this.typePerson = client.getTypePerson().getDescription();
         this.identityNumber = client.getIdentityNumber();
         this.fullName = client.getFirstName() + " " + client.getLastName();
         this.phone = client.getPhone();
