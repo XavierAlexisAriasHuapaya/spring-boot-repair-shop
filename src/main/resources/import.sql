@@ -5,8 +5,8 @@ INSERT INTO master_details (master_id, description, value) VALUES (1, 'ARGENTINA
 INSERT INTO master_details (master_id, description, value) VALUES (1, 'COLOMBIA', '');--4
 
 INSERT INTO masters (description, status) VALUES ('Currency', true);
-INSERT INTO master_details (master_id, description, value) VALUES (2, 'SOLES', '');--5
-INSERT INTO master_details (master_id, description, value) VALUES (2, 'DOLARES', '');--6
+INSERT INTO master_details (master_id, description, value) VALUES (2, 'SOLES', 'S/.');--5
+INSERT INTO master_details (master_id, description, value) VALUES (2, 'DOLARES', '$');--6
 
 INSERT INTO masters (description, status) VALUES ('Type Person', true);
 INSERT INTO master_details (master_id, description, value) VALUES (3, 'NATURAL', '');--7

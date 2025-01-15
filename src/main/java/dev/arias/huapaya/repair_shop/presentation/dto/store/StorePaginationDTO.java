@@ -1,6 +1,5 @@
 package dev.arias.huapaya.repair_shop.presentation.dto.store;
 
-import dev.arias.huapaya.repair_shop.persistence.entity.MasterDetailEntity;
 import dev.arias.huapaya.repair_shop.persistence.entity.StoreEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -13,7 +12,7 @@ public class StorePaginationDTO {
 
     private Long id;
 
-    private MasterDetailEntity currency;
+    private String currency;
 
     private String name;
 
@@ -27,7 +26,11 @@ public class StorePaginationDTO {
 
     public StorePaginationDTO(StoreEntity store) {
         this.id = store.getId();
-        this.currency = store.getCurrency();
+        this.currency = new StringBuilder(store.getCurrency().getDescription())
+                .append(" (")
+                .append(store.getCurrency().getValue())
+                .append(")")
+                .toString();
         this.name = store.getName();
         this.address = store.getAddress();
         this.phone = store.getPhone();
