@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import dev.arias.huapaya.repair_shop.presentation.dto.business.BusinessCreateDTO;
 import dev.arias.huapaya.repair_shop.presentation.dto.business.BusinessFindOneDTO;
 import dev.arias.huapaya.repair_shop.presentation.dto.business.BusinessUpdateDTO;
+import dev.arias.huapaya.repair_shop.presentation.exception.ExceptionMessage;
 import dev.arias.huapaya.repair_shop.service.interfaces.BusinessService;
 import lombok.AllArgsConstructor;
 
@@ -30,17 +31,33 @@ public class BusinessController {
     @PostMapping
     public ResponseEntity<?> create(@RequestBody BusinessCreateDTO create) {
         Map<String, Object> response = new HashMap<>();
-        this.service.create(create);
-        response.put("message", "successfully created");
-        return new ResponseEntity<>(response, HttpStatus.CREATED);
+        try {
+            this.service.create(create);
+            response.put("message", "successfully created");
+            return new ResponseEntity<>(response, HttpStatus.CREATED);
+        } catch (ExceptionMessage e) {
+            response.put("error", e.getMessage());
+            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+        } catch (Exception e) {
+            response.put("error", e.getMessage());
+            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+        }
     }
 
     @PutMapping(path = "{id}")
     public ResponseEntity<?> update(@RequestBody BusinessUpdateDTO update, @PathVariable Long id) {
         Map<String, Object> response = new HashMap<>();
-        this.service.update(update, id);
-        response.put("message", "successfully updated");
-        return new ResponseEntity<>(response, HttpStatus.CREATED);
+        try {
+            this.service.update(update, id);
+            response.put("message", "successfully updated");
+            return new ResponseEntity<>(response, HttpStatus.CREATED);
+        } catch (ExceptionMessage e) {
+            response.put("error", e.getMessage());
+            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+        } catch (Exception e) {
+            response.put("error", e.getMessage());
+            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+        }
     }
 
     @GetMapping(path = "{id}")

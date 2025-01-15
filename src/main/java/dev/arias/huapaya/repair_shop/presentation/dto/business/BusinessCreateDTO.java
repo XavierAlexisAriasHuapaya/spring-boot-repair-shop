@@ -14,6 +14,8 @@ public class BusinessCreateDTO {
 
     private String companyName;
 
+    private String identityNumber;
+
     private String phone;
 
     private String address;

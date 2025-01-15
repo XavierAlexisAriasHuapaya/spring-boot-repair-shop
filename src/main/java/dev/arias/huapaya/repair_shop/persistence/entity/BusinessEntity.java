@@ -33,6 +33,8 @@ public class BusinessEntity {
     @JoinColumn(name = "countryId")
     private MasterDetailEntity country;
 
+    private String identityNumber;
+
     private String companyName;
 
     private String phone;

@@ -18,6 +18,8 @@ public class BusinessFindOneDTO {
 
     private String companyName;
 
+    private String identityNumber;
+
     private String phone;
 
     private String address;

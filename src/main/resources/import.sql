@@ -1,107 +1,105 @@
 INSERT INTO masters (description, status) VALUES ('Country', true);
-INSERT INTO master_details (master_id, description, value) VALUES (1, 'Peru', '');
-INSERT INTO master_details (master_id, description, value) VALUES (1, 'Chile', '');
-INSERT INTO master_details (master_id, description, value) VALUES (1, 'Argentina', '');
-INSERT INTO master_details (master_id, description, value) VALUES (1, 'Colombia', '');
+INSERT INTO master_details (master_id, description, value) VALUES (1, 'PERU', '+51');--1
+INSERT INTO master_details (master_id, description, value) VALUES (1, 'CHILE', '');--2
+INSERT INTO master_details (master_id, description, value) VALUES (1, 'ARGENTINA', '');--3
+INSERT INTO master_details (master_id, description, value) VALUES (1, 'COLOMBIA', '');--4
 
 INSERT INTO masters (description, status) VALUES ('Currency', true);
-INSERT INTO master_details (master_id, description, value) VALUES (2, 'Soles', '');
-INSERT INTO master_details (master_id, description, value) VALUES (2, 'Dolares', '');
+INSERT INTO master_details (master_id, description, value) VALUES (2, 'SOLES', '');--5
+INSERT INTO master_details (master_id, description, value) VALUES (2, 'DOLARES', '');--6
 
 INSERT INTO masters (description, status) VALUES ('Type Person', true);
-INSERT INTO master_details (master_id, description, value) VALUES (3, 'Natural', '');
-INSERT INTO master_details (master_id, description, value) VALUES (3, 'Juridica', '');
+INSERT INTO master_details (master_id, description, value) VALUES (3, 'NATURAL', '');--7
+INSERT INTO master_details (master_id, description, value) VALUES (3, 'JURIDICA', '');--8
 
 INSERT INTO masters (description, status) VALUES ('Gender', true);
-INSERT INTO master_details (master_id, description, value) VALUES (4, 'Masculino', '');
-INSERT INTO master_details (master_id, description, value) VALUES (4, 'Femenino', '');
+INSERT INTO master_details (master_id, description, value) VALUES (4, 'MASCULINO', '');--9
+INSERT INTO master_details (master_id, description, value) VALUES (4, 'FEMENINO', '');--10
 
 INSERT INTO masters (description, status) VALUES ('Type Supplier', true);
-INSERT INTO master_details (master_id, description, value) VALUES (5, 'Proveedor General', '');
+INSERT INTO master_details (master_id, description, value) VALUES (5, 'PROVEEDOR GENERAL', '');--11
 
 INSERT INTO masters (description, status) VALUES ('Unit of measurement', true);
-INSERT INTO master_details (master_id, description, value) VALUES (6, 'UND', '');
+INSERT INTO master_details (master_id, description, value) VALUES (6, 'UND', '');--12
 
 INSERT INTO masters (description, status) VALUES ('Category', true);
-INSERT INTO master_details (master_id, description, value) VALUES (7, 'Celulares', '');
-INSERT INTO master_details (master_id, description, value) VALUES (7, 'Laptops', '');
-INSERT INTO master_details (master_id, description, value) VALUES (7, 'Tablets', '');
-INSERT INTO master_details (master_id, description, value) VALUES (7, 'Accesorios', '');
+INSERT INTO master_details (master_id, description, value) VALUES (7, 'CELULARES', '');--13
+INSERT INTO master_details (master_id, description, value) VALUES (7, 'LAPTOPS', '');--14
+INSERT INTO master_details (master_id, description, value) VALUES (7, 'TABLETS', '');--15
+INSERT INTO master_details (master_id, description, value) VALUES (7, 'ACCESORIOS', '');--16
 
 INSERT INTO masters (description, status) VALUES ('Model', true);
-INSERT INTO master_details (master_id, description, value) VALUES (8, 'iPhone', '');
-INSERT INTO master_details (master_id, description, value) VALUES (8, 'Galaxy', '');
-INSERT INTO master_details (master_id, description, value) VALUES (8, 'Inspiron', '');
-INSERT INTO master_details (master_id, description, value) VALUES (8, 'MX Master', '');
+INSERT INTO master_details (master_id, description, value) VALUES (8, 'IPHONE', '');--17
+INSERT INTO master_details (master_id, description, value) VALUES (8, 'GALAXY', '');--18
+INSERT INTO master_details (master_id, description, value) VALUES (8, 'INSPIRON', '');--19
+INSERT INTO master_details (master_id, description, value) VALUES (8, 'MX MASTER', '');--20
 
 INSERT INTO masters (description, status) VALUES ('Brand', true);
-INSERT INTO master_details (master_id, description, value) VALUES (9, 'Apple', '');
-INSERT INTO master_details (master_id, description, value) VALUES (9, 'Samsung', '');
-INSERT INTO master_details (master_id, description, value) VALUES (9, 'Dell', '');
-INSERT INTO master_details (master_id, description, value) VALUES (9, 'Logitech', '');
+INSERT INTO master_details (master_id, description, value) VALUES (9, 'APPLE', '');--21
+INSERT INTO master_details (master_id, description, value) VALUES (9, 'SAMSUNG', '');--22
+INSERT INTO master_details (master_id, description, value) VALUES (9, 'DELL', '');--23
+INSERT INTO master_details (master_id, description, value) VALUES (9, 'LOGITECH', '');--24
 
 INSERT INTO masters (description, status) VALUES ('Movement reason', true);
-INSERT INTO master_details (master_id, description, value) VALUES (10, 'COMPRA DIRECTA', 'I');
-INSERT INTO master_details (master_id, description, value) VALUES (10, 'VENTA DE PRODUCTOS', 'O');
-INSERT INTO master_details (master_id, description, value) VALUES (10, 'TRASLADO ENTRE ALMACENES', 'O');
-INSERT INTO master_details (master_id, description, value) VALUES (10, 'PRODUCTOS DEFECTUOSOS', 'O');
-INSERT INTO master_details (master_id, description, value) VALUES (10, 'INVENTARIO INICIAL', 'I');
-INSERT INTO master_details (master_id, description, value) VALUES (10, 'AJUSTE DE INVENTARIO', 'N');
-INSERT INTO master_details (master_id, description, value) VALUES (10, 'ENTRADAS VARIAS', 'I');
-INSERT INTO master_details (master_id, description, value) VALUES (10, 'DEVOLUCION A PROVEEDOR', 'O');
+INSERT INTO master_details (master_id, description, value) VALUES (10, 'COMPRA DIRECTA', 'I');--25
+INSERT INTO master_details (master_id, description, value) VALUES (10, 'VENTA DE PRODUCTOS', 'O');--26
+INSERT INTO master_details (master_id, description, value) VALUES (10, 'TRASLADO ENTRE ALMACENES', 'O');--27
+INSERT INTO master_details (master_id, description, value) VALUES (10, 'PRODUCTOS DEFECTUOSOS', 'O');--28
+INSERT INTO master_details (master_id, description, value) VALUES (10, 'INVENTARIO INICIAL', 'I');--29
+INSERT INTO master_details (master_id, description, value) VALUES (10, 'AJUSTE DE INVENTARIO', 'N');--30
+INSERT INTO master_details (master_id, description, value) VALUES (10, 'ENTRADAS VARIAS', 'I');--31
+INSERT INTO master_details (master_id, description, value) VALUES (10, 'DEVOLUCION A PROVEEDOR', 'O');--32
+INSERT INTO master_details (master_id, description, value) VALUES (10, 'NOTA DE CREDITO', 'I');--33
 
 INSERT INTO masters (description, status) VALUES ('Payment Condition', true);
-INSERT INTO master_details (master_id, description, value) VALUES (11, 'AL CONTADO', '');
-INSERT INTO master_details (master_id, description, value) VALUES (11, 'A CREDITO', '');
+INSERT INTO master_details (master_id, description, value) VALUES (11, 'AL CONTADO', '');--34
+INSERT INTO master_details (master_id, description, value) VALUES (11, 'A CREDITO', '');--35
 
 INSERT INTO masters (description, status) VALUES ('Delivery Status', true);
-INSERT INTO master_details (master_id, description, value) VALUES (12, 'PENDIENTE', '');
-INSERT INTO master_details (master_id, description, value) VALUES (12, 'ENTREGADO', '');
-INSERT INTO master_details (master_id, description, value) VALUES (12, 'POR ENTREGAR', '');
+INSERT INTO master_details (master_id, description, value) VALUES (12, 'PENDIENTE', '');--36
+INSERT INTO master_details (master_id, description, value) VALUES (12, 'ENTREGADO', '');--37
+INSERT INTO master_details (master_id, description, value) VALUES (12, 'POR ENTREGAR', '');--38
 
 INSERT INTO masters (description, status) VALUES ('Purchase Status', true);
-INSERT INTO master_details (master_id, description, value) VALUES (13, 'PENDIENTE', '');
-INSERT INTO master_details (master_id, description, value) VALUES (13, 'APROBADA', '');
-INSERT INTO master_details (master_id, description, value) VALUES (13, 'RECHAZADA', '');
-INSERT INTO master_details (master_id, description, value) VALUES (13, 'CERRADA', '');
-INSERT INTO master_details (master_id, description, value) VALUES (13, 'ANULADA', '');
+INSERT INTO master_details (master_id, description, value) VALUES (13, 'PENDIENTE', '');--39
+INSERT INTO master_details (master_id, description, value) VALUES (13, 'APROBADA', '');--40
+INSERT INTO master_details (master_id, description, value) VALUES (13, 'RECHAZADA', '');--41
+INSERT INTO master_details (master_id, description, value) VALUES (13, 'CERRADA', '');--42
+INSERT INTO master_details (master_id, description, value) VALUES (13, 'ANULADA', '');--43
 
 INSERT INTO masters (description, status) VALUES ('Type Operation', true);
-INSERT INTO master_details (master_id, description, value) VALUES (14, 'INGRESOS POR VENTAS', 'I');
-INSERT INTO master_details (master_id, description, value) VALUES (14, 'TRANSFERENCIA', 'E');
-INSERT INTO master_details (master_id, description, value) VALUES (14, 'PAGO DE NOTA DE CREDITO', 'E');
-INSERT INTO master_details (master_id, description, value) VALUES (14, 'PAGO A PROVEEDOR', 'E');
-INSERT INTO master_details (master_id, description, value) VALUES (14, 'PAGO DE LETRA', 'I');
-INSERT INTO master_details (master_id, description, value) VALUES (14, 'ARTICULOS DE OFICINA', 'E');
-INSERT INTO master_details (master_id, description, value) VALUES (14, 'UTILES DE LIMPIEZA', 'E');
-INSERT INTO master_details (master_id, description, value) VALUES (14, 'SUELDO', 'E');
-INSERT INTO master_details (master_id, description, value) VALUES (14, 'EGRESOS VARIOS', 'E');
-INSERT INTO master_details (master_id, description, value) VALUES (14, 'INGRESOS VARIOS', 'I');
-INSERT INTO master_details (master_id, description, value) VALUES (14, 'MOVILIDAD', 'E');
-INSERT INTO master_details (master_id, description, value) VALUES (14, 'MENU', 'E');
+INSERT INTO master_details (master_id, description, value) VALUES (14, 'INGRESOS POR VENTAS', 'I');--44
+INSERT INTO master_details (master_id, description, value) VALUES (14, 'TRANSFERENCIA', 'E');--45
+INSERT INTO master_details (master_id, description, value) VALUES (14, 'PAGO DE NOTA DE CREDITO', 'E');--46
+INSERT INTO master_details (master_id, description, value) VALUES (14, 'PAGO A PROVEEDOR', 'E');--47
+INSERT INTO master_details (master_id, description, value) VALUES (14, 'PAGO DE LETRA', 'I');--48
+INSERT INTO master_details (master_id, description, value) VALUES (14, 'ARTICULOS DE OFICINA', 'E');--49
+INSERT INTO master_details (master_id, description, value) VALUES (14, 'UTILES DE LIMPIEZA', 'E');--50
+INSERT INTO master_details (master_id, description, value) VALUES (14, 'SUELDO', 'E');--51
+INSERT INTO master_details (master_id, description, value) VALUES (14, 'EGRESOS VARIOS', 'E');--52
+INSERT INTO master_details (master_id, description, value) VALUES (14, 'INGRESOS VARIOS', 'I');--53
+INSERT INTO master_details (master_id, description, value) VALUES (14, 'MOVILIDAD', 'E');--54
+INSERT INTO master_details (master_id, description, value) VALUES (14, 'MENU', 'E');--55
 
 INSERT INTO masters (description, status) VALUES ('Method Payment', true);
-INSERT INTO master_details (master_id, description, value) VALUES (15, 'EFECTIVO', '');
-INSERT INTO master_details (master_id, description, value) VALUES (15, 'TARJETA', '');
-INSERT INTO master_details (master_id, description, value) VALUES (15, 'NOTA DE CREDITO', '');
+INSERT INTO master_details (master_id, description, value) VALUES (15, 'EFECTIVO', '');--56
+INSERT INTO master_details (master_id, description, value) VALUES (15, 'TARJETA', '');--57
+INSERT INTO master_details (master_id, description, value) VALUES (15, 'NOTA DE CREDITO', '');--58
 
 INSERT INTO masters (description, status) VALUES ('Type Card', true);
-INSERT INTO master_details (master_id, description, value) VALUES (16, 'TRANFERENCIA INTERBANK', '');
-INSERT INTO master_details (master_id, description, value) VALUES (16, 'TRANFERENCIA BCP', '');
-INSERT INTO master_details (master_id, description, value) VALUES (16, 'TRANSFERENCIA BBVA', '');
-INSERT INTO master_details (master_id, description, value) VALUES (16, 'PLIN', '');
-INSERT INTO master_details (master_id, description, value) VALUES (16, 'YAPE', '');
-INSERT INTO master_details (master_id, description, value) VALUES (16, 'POS IZIPAY', '');
-INSERT INTO master_details (master_id, description, value) VALUES (16, 'POS VENDE MAS', '');
-INSERT INTO master_details (master_id, description, value) VALUES (16, 'MASTERCARD', '');
-
-
-INSERT INTO master_details (master_id, description, value) VALUES (10, 'NOTA DE CREDITO', 'I');
+INSERT INTO master_details (master_id, description, value) VALUES (16, 'TRANFERENCIA INTERBANK', '');--59
+INSERT INTO master_details (master_id, description, value) VALUES (16, 'TRANFERENCIA BCP', '');--60
+INSERT INTO master_details (master_id, description, value) VALUES (16, 'TRANSFERENCIA BBVA', '');--61
+INSERT INTO master_details (master_id, description, value) VALUES (16, 'PLIN', '');--62
+INSERT INTO master_details (master_id, description, value) VALUES (16, 'YAPE', '');--63
+INSERT INTO master_details (master_id, description, value) VALUES (16, 'POS IZIPAY', '');--64
+INSERT INTO master_details (master_id, description, value) VALUES (16, 'POS VENDE MAS', '');--65
+INSERT INTO master_details (master_id, description, value) VALUES (16, 'MASTERCARD', '');--66
 
 INSERT INTO business (country_id, company_name, phone, address, created_at, updated_at, status) VALUES (1, 'Digital Perú A&H', '989854252', 'Jr. Bolognesi', '2024-12-05 16:52:45.436', '2024-12-05 16:52:45.436', true);
 
-INSERT INTO roles (description, created_at, updated_at, status) VALUES ('Administrator', '2024-12-05 16:52:45.436', '2024-12-05 16:52:45.436', true);
-INSERT INTO roles (description, created_at, updated_at, status) VALUES ('Technical', '2024-12-05 16:52:45.436', '2024-12-05 16:52:45.436', true);
+INSERT INTO roles (description, created_at, updated_at, status) VALUES ('ADMINISTRATOR', '2024-12-05 16:52:45.436', '2024-12-05 16:52:45.436', true);
+INSERT INTO roles (description, created_at, updated_at, status) VALUES ('TECHNICAL', '2024-12-05 16:52:45.436', '2024-12-05 16:52:45.436', true);
 
 INSERT INTO stores (currency_id, name, address, phone, logo, created_at, updated_at, status) VALUES (5, 'Lima One', 'Jr. Lima 154', '989748154', null, '2024-12-05 16:52:45.436', '2024-12-05 16:52:45.436', true);
 INSERT INTO stores (currency_id, name, address, phone, logo, created_at, updated_at, status) VALUES (6, 'Ayacucho Two', 'Av. Ayacucho 1874', '947991007', null, '2024-12-05 16:52:45.436', '2024-12-05 16:52:45.436', true);
