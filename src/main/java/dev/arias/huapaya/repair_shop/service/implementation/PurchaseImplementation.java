@@ -65,6 +65,7 @@ public class PurchaseImplementation implements PurchaseService {
                 .operationDate(purcharse.getOperationDate())
                 .purchaseDetails(purchaseDetailEntities)
                 .exchangeRate(purcharse.getExchangeRate())
+                .tax(purcharse.getTax())
                 .build();
         purcharseCreate = this.repository.save(purcharseCreate);
 
@@ -83,6 +84,7 @@ public class PurchaseImplementation implements PurchaseService {
                 .operationDate(purcharse.getOperationDate())
                 .observation(purcharse.getObservation())
                 .exchangeRate(purcharse.getExchangeRate())
+                .tax(purcharse.getTax())
                 .inboundOutbound(outboundList)
                 .build();
         MovementEntity movement = this.movementService.create(movementDto);

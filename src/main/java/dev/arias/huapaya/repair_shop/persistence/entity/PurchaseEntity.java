@@ -64,6 +64,8 @@ public class PurchaseEntity {
 
     private BigDecimal exchangeRate;
 
+    private BigDecimal tax;
+
     @Column(updatable = false)
     private LocalDateTime createdAt;
 
@@ -91,7 +93,7 @@ public class PurchaseEntity {
                     details.setTotalAmount(quantity.multiply(details.getPrice()));
                 });
         this.purchaseAmount = amount;
-        this.subTotal = amount.divide(BigDecimal.valueOf(1.18), 2, RoundingMode.HALF_UP);
+        this.subTotal = amount.divide(this.getTax().add(BigDecimal.ONE), 2, RoundingMode.HALF_UP);
         this.taxAmount = this.purchaseAmount.subtract(this.subTotal);
     }
 

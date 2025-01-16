@@ -31,4 +31,6 @@ public class PurcharseCreateDTO {
 
     private BigDecimal exchangeRate;
 
+    private BigDecimal tax;
+
 }
