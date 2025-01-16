@@ -71,6 +71,7 @@ public class PaymentImplementation implements PaymentService {
                 .operationDate(payment.getOperationDate())
                 .observation(payment.getObservation())
                 .exchangeRate(payment.getExchangeRate())
+                .tax(payment.getTax())
                 .amount(payment.getAmount())
                 .impactPettyCash(payment.getImpactPettyCash())
                 .build();
@@ -99,6 +100,7 @@ public class PaymentImplementation implements PaymentService {
                 .observation(payment.getObservation())
                 .invoiced(payment.getInvoiced())
                 .exchangeRate(payment.getExchangeRate())
+                .tax(payment.getTax())
                 .taxAmount(payment.getTaxAmount())
                 .subTotal(payment.getSubTotal())
                 .amount(payment.getAmount())

@@ -43,6 +43,8 @@ public class PaymentCreateDTO {
 
     private BigDecimal exchangeRate;
 
+    private BigDecimal tax;
+
     private BigDecimal amount;
 
     private Boolean impactPettyCash;

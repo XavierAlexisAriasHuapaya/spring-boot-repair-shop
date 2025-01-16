@@ -81,6 +81,8 @@ public class PaymentEntity {
 
     private BigDecimal exchangeRate;
 
+    private BigDecimal tax;
+
     private BigDecimal taxAmount;
 
     private BigDecimal subTotal;
@@ -113,7 +115,7 @@ public class PaymentEntity {
     }
 
     private void calculateTotals() {
-        this.subTotal = this.amount.divide(BigDecimal.valueOf(1.18), 2, RoundingMode.HALF_UP);
+        this.subTotal = this.amount.divide(this.getTax().add(BigDecimal.ONE), 2, RoundingMode.HALF_UP);
         this.taxAmount = this.amount.subtract(this.subTotal);
     }
 

@@ -48,6 +48,8 @@ public class PaymentFindOneDTO {
 
     private BigDecimal exchangeRate;
 
+    private BigDecimal tax;
+
     private BigDecimal taxAmount;
 
     private BigDecimal subTotal;
