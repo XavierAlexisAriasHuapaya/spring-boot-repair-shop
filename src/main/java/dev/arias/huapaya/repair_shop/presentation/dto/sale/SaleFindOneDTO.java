@@ -59,6 +59,8 @@ public class SaleFindOneDTO {
 
     private BigDecimal exchangeRate;
 
+    private BigDecimal tax;
+
     private List<PaymentEntity> payments;
 
     private Boolean paid;

@@ -45,6 +45,8 @@ public class SaleCreateDTO {
 
     private BigDecimal exchangeRate;
 
+    private BigDecimal tax;
+
     private String observation;
 
 }

@@ -9,10 +9,12 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import dev.arias.huapaya.repair_shop.persistence.entity.DocumentEntity;
 import dev.arias.huapaya.repair_shop.persistence.entity.MasterDetailEntity;
 import dev.arias.huapaya.repair_shop.persistence.entity.MovementEntity;
 import dev.arias.huapaya.repair_shop.persistence.entity.SaleDetailEntity;
 import dev.arias.huapaya.repair_shop.persistence.entity.SaleEntity;
+import dev.arias.huapaya.repair_shop.persistence.repository.DocumentRepository;
 import dev.arias.huapaya.repair_shop.persistence.repository.MasterDetailRepository;
 import dev.arias.huapaya.repair_shop.persistence.repository.SaleRepository;
 import dev.arias.huapaya.repair_shop.presentation.dto.main.PageDTO;
@@ -37,6 +39,8 @@ public class SaleImplementation implements SaleService {
 
     private final MasterDetailRepository masterDetailRepository;
 
+    private final DocumentRepository documentRepository;
+
     @Transactional
     @Override
     public SaleEntity create(SaleCreateDTO sale) {
@@ -59,8 +63,15 @@ public class SaleImplementation implements SaleService {
                     .build();
             inboundList.add(inbound);
         }
+
+        Optional<DocumentEntity> documentOpt = this.documentRepository.findById(sale.getDocument().getId());
+
+        if (!documentOpt.isPresent()) {
+            throw new ExceptionMessage("Not found document id: " + sale.getDocument().getId());
+        }
+
         SaleEntity saleCreate = SaleEntity.builder()
-                .document(sale.getDocument())
+                .document(documentOpt.get())
                 .paymentCondition(sale.getPaymentCondition())
                 .pettyCash(sale.getPettyCash())
                 .deliveryStatus(sale.getDeliveryStatus())
@@ -73,6 +84,7 @@ public class SaleImplementation implements SaleService {
                 .expirationDate(sale.getExpirationDate())
                 .saleDetails(saleDetailEntities)
                 .exchangeRate(sale.getExchangeRate())
+                .tax(sale.getTax())
                 .observation(sale.getObservation())
                 .build();
         saleCreate = this.repository.save(saleCreate);
@@ -89,6 +101,7 @@ public class SaleImplementation implements SaleService {
                 .operationDate(sale.getOperationDate())
                 .observation(sale.getObservation())
                 .exchangeRate(sale.getExchangeRate())
+                .tax(sale.getTax())
                 .inboundOutbound(inboundList)
                 .build();
         MovementEntity movement = this.movementService.create(movementDto);
@@ -134,6 +147,7 @@ public class SaleImplementation implements SaleService {
                 .subTotal(sale.getSubTotal())
                 .discount(sale.getDiscount())
                 .exchangeRate(sale.getExchangeRate())
+                .tax(sale.getTax())
                 .payments(sale.getPayments())
                 .createdAt(sale.getCreatedAt())
                 .updatedAt(sale.getUpdatedAt())

@@ -80,15 +80,17 @@ public class SaleEntity {
 
     private String observation;
 
-    private BigDecimal saleAmount;
+    private BigDecimal exchangeRate;
 
-    private BigDecimal taxAmount;
+    private BigDecimal tax;
+
+    private BigDecimal saleAmount;
 
     private BigDecimal subTotal;
 
-    private BigDecimal discount;
+    private BigDecimal taxAmount;
 
-    private BigDecimal exchangeRate;
+    private BigDecimal discount;
 
     @OneToMany(mappedBy = "sale", fetch = FetchType.LAZY)
     @JsonManagedReference("sale-Payments")
@@ -125,7 +127,7 @@ public class SaleEntity {
                 });
         this.discount = discount;
         this.saleAmount = amount;
-        this.subTotal = amount.divide(BigDecimal.valueOf(1.18), 2, RoundingMode.HALF_UP);
+        this.subTotal = amount.divide((this.getTax().add(BigDecimal.ONE)), 2, RoundingMode.HALF_UP);
         this.taxAmount = this.saleAmount.subtract(this.subTotal);
     }
 

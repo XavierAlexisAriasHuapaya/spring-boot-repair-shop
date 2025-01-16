@@ -2,11 +2,13 @@ package dev.arias.huapaya.repair_shop.presentation.dto.sale;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 import dev.arias.huapaya.repair_shop.persistence.entity.PaymentEntity;
 import dev.arias.huapaya.repair_shop.persistence.entity.SaleDetailEntity;
 import dev.arias.huapaya.repair_shop.persistence.entity.SaleEntity;
+import dev.arias.huapaya.repair_shop.presentation.dto.sale.details.SaleDetailPaginationDTO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -28,7 +30,7 @@ public class SalePaginationDTO {
 
     private LocalDate operationDate;
 
-    private List<SaleDetailEntity> saleDetails;
+    private List<SaleDetailPaginationDTO> saleDetails;
 
     private BigDecimal totalSaleAmount;
 
@@ -37,6 +39,31 @@ public class SalePaginationDTO {
     private BigDecimal remainingAmount;
 
     public SalePaginationDTO(SaleEntity sale) {
+
+        List<SaleDetailPaginationDTO> saleDetailDTOList = new ArrayList<>();
+        for (SaleDetailEntity details : sale.getSaleDetails()) {
+            SaleDetailPaginationDTO saleDetailDTO = SaleDetailPaginationDTO.builder()
+                    .product(details.getProduct().getName())
+                    .description(new StringBuilder(details.getProduct().getCategory().getDescription())
+                            .append("-")
+                            .append(details.getProduct().getModel().getDescription())
+                            .append("-")
+                            .append(details.getProduct().getBrand().getDescription())
+                            .toString())
+                    .quantity(details.getQuantity())
+                    .price(details.getPrice())
+                    .discount(details.getDiscount())
+                    .porcentageDiscount(
+                            details.getPorcentageDiscount()
+                                    ? new StringBuilder("%")
+                                            .append("-")
+                                            .append(sale.getStore().getCurrency().getValue())
+                                            .toString()
+                                    : sale.getStore().getCurrency().getValue())
+                    .build();
+            saleDetailDTOList.add(saleDetailDTO);
+        }
+
         this.id = sale.getId();
         this.document = new StringBuilder()
                 .append(sale.getDocument().getName())
@@ -53,7 +80,7 @@ public class SalePaginationDTO {
                 .append(sale.getClient().getLastName())
                 .toString();
         this.operationDate = sale.getOperationDate();
-        this.saleDetails = sale.getSaleDetails();
+        this.saleDetails = saleDetailDTOList;
         this.totalSaleAmount = sale.getSaleAmount();
         if (sale.getPayments() != null) {
             BigDecimal account = BigDecimal.ZERO;

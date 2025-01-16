@@ -39,7 +39,7 @@ public class SaleDetailEntity {
 
     private BigDecimal totalAmount;
 
-    private boolean porcentageDiscount;
+    private Boolean porcentageDiscount;
 
     private Boolean status;
 
