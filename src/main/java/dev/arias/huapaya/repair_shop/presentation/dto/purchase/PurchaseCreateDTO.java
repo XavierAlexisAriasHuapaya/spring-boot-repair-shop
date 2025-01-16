@@ -15,7 +15,7 @@ import lombok.Data;
 @AllArgsConstructor
 @Data
 @Builder
-public class PurcharseCreateDTO {
+public class PurchaseCreateDTO {
 
     private SupplierEntity supplier;
 

@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import dev.arias.huapaya.repair_shop.presentation.dto.main.PageDTO;
-import dev.arias.huapaya.repair_shop.presentation.dto.purchase.PurcharseCreateDTO;
+import dev.arias.huapaya.repair_shop.presentation.dto.purchase.PurchaseCreateDTO;
 import dev.arias.huapaya.repair_shop.presentation.dto.purchase.PurchaseFindOneDTO;
 import dev.arias.huapaya.repair_shop.presentation.dto.purchase.PurchasePaginationDTO;
 import dev.arias.huapaya.repair_shop.presentation.exception.ExceptionMessage;
@@ -29,7 +29,7 @@ public class PurchaseController {
     private final PurchaseService service;
 
     @PostMapping
-    public ResponseEntity<?> create(@RequestBody PurcharseCreateDTO create) {
+    public ResponseEntity<?> create(@RequestBody PurchaseCreateDTO create) {
         Map<String, Object> response = new HashMap<>();
         try {
             this.service.create(create);

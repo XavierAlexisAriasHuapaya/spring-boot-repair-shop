@@ -17,7 +17,7 @@ import dev.arias.huapaya.repair_shop.persistence.repository.PurchaseRepository;
 import dev.arias.huapaya.repair_shop.presentation.dto.main.PageDTO;
 import dev.arias.huapaya.repair_shop.presentation.dto.movement.InboundOutboundCreateDTO;
 import dev.arias.huapaya.repair_shop.presentation.dto.movement.MovementCreateDTO;
-import dev.arias.huapaya.repair_shop.presentation.dto.purchase.PurcharseCreateDTO;
+import dev.arias.huapaya.repair_shop.presentation.dto.purchase.PurchaseCreateDTO;
 import dev.arias.huapaya.repair_shop.presentation.dto.purchase.PurchaseFindOneDTO;
 import dev.arias.huapaya.repair_shop.presentation.dto.purchase.PurchasePaginationDTO;
 import dev.arias.huapaya.repair_shop.presentation.dto.purchase.details.PurchaseDetailCreateDTO;
@@ -37,11 +37,11 @@ public class PurchaseImplementation implements PurchaseService {
     private final MasterDetailRepository masterDetailRepository;
 
     @Override
-    public PurchaseEntity create(PurcharseCreateDTO purcharse) {
+    public PurchaseEntity create(PurchaseCreateDTO purchase) {
 
         List<PurchaseDetailEntity> purchaseDetailEntities = new ArrayList<>();
         List<InboundOutboundCreateDTO> outboundList = new ArrayList<>();
-        for (PurchaseDetailCreateDTO details : purcharse.getPurchaseDetails()) {
+        for (PurchaseDetailCreateDTO details : purchase.getPurchaseDetails()) {
             PurchaseDetailEntity purchaseDetailsCreate = PurchaseDetailEntity.builder()
                     .product(details.getProduct())
                     .quantity(details.getQuantity())
@@ -57,34 +57,34 @@ public class PurchaseImplementation implements PurchaseService {
             outboundList.add(inbound);
         }
 
-        PurchaseEntity purcharseCreate = PurchaseEntity.builder()
-                .supplier(purcharse.getSupplier())
-                .orderStatus(purcharse.getOrderStatus())
-                .store(purcharse.getStore())
-                .observation(purcharse.getObservation())
-                .operationDate(purcharse.getOperationDate())
+        PurchaseEntity purchaseCreate = PurchaseEntity.builder()
+                .supplier(purchase.getSupplier())
+                .orderStatus(purchase.getOrderStatus())
+                .store(purchase.getStore())
+                .observation(purchase.getObservation())
+                .operationDate(purchase.getOperationDate())
                 .purchaseDetails(purchaseDetailEntities)
-                .exchangeRate(purcharse.getExchangeRate())
-                .tax(purcharse.getTax())
+                .exchangeRate(purchase.getExchangeRate())
+                .tax(purchase.getTax())
                 .build();
-        purcharseCreate = this.repository.save(purcharseCreate);
+        purchaseCreate = this.repository.save(purchaseCreate);
 
-        if (purcharseCreate.getId() == 0) {
-            throw new ExceptionMessage("Error creating Purcharse");
+        if (purchaseCreate.getId() == 0) {
+            throw new ExceptionMessage("Error creating Purchase");
         }
 
         Optional<MasterDetailEntity> reason = this.masterDetailRepository.findById(25L);
         MovementCreateDTO movementDto = MovementCreateDTO.builder()
-                .supplier(purcharse.getSupplier())
+                .supplier(purchase.getSupplier())
                 .reason(reason.get())
-                .originStore(purcharse.getStore())
+                .originStore(purchase.getStore())
                 .destinationStore(null)
                 .referenceMovement(null)
                 .sale(null)
-                .operationDate(purcharse.getOperationDate())
-                .observation(purcharse.getObservation())
-                .exchangeRate(purcharse.getExchangeRate())
-                .tax(purcharse.getTax())
+                .operationDate(purchase.getOperationDate())
+                .observation(purchase.getObservation())
+                .exchangeRate(purchase.getExchangeRate())
+                .tax(purchase.getTax())
                 .inboundOutbound(outboundList)
                 .build();
         MovementEntity movement = this.movementService.create(movementDto);
@@ -92,7 +92,7 @@ public class PurchaseImplementation implements PurchaseService {
             throw new ExceptionMessage("Error creating Purchase Movement");
         }
 
-        return purcharseCreate;
+        return purchaseCreate;
     }
 
     @Override
