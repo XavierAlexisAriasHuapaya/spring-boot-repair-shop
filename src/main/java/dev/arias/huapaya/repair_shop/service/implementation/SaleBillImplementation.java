@@ -7,8 +7,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import dev.arias.huapaya.repair_shop.persistence.entity.DocumentEntity;
 import dev.arias.huapaya.repair_shop.persistence.entity.SaleBillEntity;
 import dev.arias.huapaya.repair_shop.persistence.entity.SaleEntity;
+import dev.arias.huapaya.repair_shop.persistence.repository.DocumentRepository;
 import dev.arias.huapaya.repair_shop.persistence.repository.SaleBillRepository;
 import dev.arias.huapaya.repair_shop.persistence.repository.SaleRepository;
 import dev.arias.huapaya.repair_shop.presentation.dto.main.PageDTO;
@@ -27,20 +29,32 @@ public class SaleBillImplementation implements SaleBillService {
 
     private final SaleRepository saleRepository;
 
+    private final DocumentRepository documentRepository;
+
     @Override
     public SaleBillEntity create(SaleBillCreateDTO saleBill) {
 
-        SaleEntity sale = this.saleRepository.findById(saleBill.getSale().getId()).get();
+        Optional<SaleEntity> saleOpt = this.saleRepository.findById(saleBill.getSale().getId());
+
+        if (!saleOpt.isPresent()) {
+            throw new ExceptionMessage("Not found sale id: " + saleBill.getSale().getId());
+        }
+
+        Optional<DocumentEntity> documentOpt = this.documentRepository.findById(saleBill.getDocument().getId());
+
+        if (!documentOpt.isPresent()) {
+            throw new ExceptionMessage("Not found document id: " + saleBill.getDocument().getId());
+        }
 
         SaleBillEntity saleBillCreate = SaleBillEntity.builder()
-                .sale(sale)
-                .document(saleBill.getDocument())
+                .sale(saleOpt.get())
+                .document(documentOpt.get())
                 .client(saleBill.getClient())
                 .operationDate(saleBill.getOperationDate())
                 .amount(saleBill.getAmount())
-                .exchangeRate(sale.getExchangeRate())
-                .tax(saleBill.getTax())
-                .advanceAmount(saleBill.getAmount().compareTo(sale.getSaleAmount()) == 0 ? false : true)
+                .exchangeRate(saleOpt.get().getExchangeRate())
+                .tax(saleOpt.get().getTax())
+                .advanceAmount(saleBill.getAmount().compareTo(saleOpt.get().getSaleAmount()) == 0 ? false : true)
                 .observation(saleBill.getObservation())
                 .build();
         return this.repository.save(saleBillCreate);

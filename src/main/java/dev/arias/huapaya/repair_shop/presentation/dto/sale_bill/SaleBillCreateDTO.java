@@ -25,8 +25,6 @@ public class SaleBillCreateDTO {
 
     private BigDecimal amount;
 
-    private BigDecimal tax;
-
     private String observation;
 
 }

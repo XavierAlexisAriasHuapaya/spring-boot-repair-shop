@@ -95,7 +95,7 @@ public class SaleBillEntity {
             amount = amount.add(quantity.multiply(details.getPrice()).subtract(details.getDiscount()));
         }
         this.amount = amount;
-        this.subTotal = amount.divide(BigDecimal.valueOf(1.18), 2, RoundingMode.HALF_UP);
+        this.subTotal = amount.divide((this.getTax().add(BigDecimal.ONE)), 2, RoundingMode.HALF_UP);
         this.taxAmount = this.amount.subtract(this.subTotal);
     }
 
