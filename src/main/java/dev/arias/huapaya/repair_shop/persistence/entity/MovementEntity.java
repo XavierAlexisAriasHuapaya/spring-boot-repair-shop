@@ -63,14 +63,16 @@ public class MovementEntity {
     private LocalDate operationDate;
 
     private String observation;
-    
+
     private BigDecimal exchangeRate;
+
+    private BigDecimal tax;
+
+    private BigDecimal movementTotal;
 
     private BigDecimal subTotal;
 
     private BigDecimal taxAmount;
-
-    private BigDecimal movementTotal;
 
     @OneToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE }, fetch = FetchType.EAGER)
     @JoinColumn(nullable = true, name = "movementId")
@@ -113,10 +115,13 @@ public class MovementEntity {
                 inboundTotal = inboundTotal.add(quantity.multiply(salePrice));
             }
         }
-        BigDecimal subTotal = inboundTotal.divide(BigDecimal.valueOf(1.18), 2, RoundingMode.HALF_UP);
+        BigDecimal subTotal = inboundTotal.divide((this.getTax().add(BigDecimal.ONE)), 2,
+                RoundingMode.HALF_UP);
         this.setSubTotal(this.getReason().getValue().equals("I") ? subTotal : BigDecimal.ZERO);
         this.setMovementTotal(this.getReason().getValue().equals("I") ? inboundTotal : BigDecimal.ZERO);
-        this.setTaxAmount(this.getReason().getValue().equals("I") ? (this.getMovementTotal().subtract(this.getSubTotal())) : BigDecimal.ZERO);
+        this.setTaxAmount(
+                this.getReason().getValue().equals("I") ? (this.getMovementTotal().subtract(this.getSubTotal()))
+                        : BigDecimal.ZERO);
     }
 
 }

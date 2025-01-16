@@ -36,6 +36,8 @@ public class MovementCreateDTO {
 
     private BigDecimal exchangeRate;
 
+    private BigDecimal tax;
+
     private List<InboundOutboundCreateDTO> inboundOutbound;
 
 }

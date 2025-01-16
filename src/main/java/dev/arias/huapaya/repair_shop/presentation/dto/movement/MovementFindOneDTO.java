@@ -36,6 +36,10 @@ public class MovementFindOneDTO {
 
     private String observation;
 
+    private BigDecimal exchangeRate;
+
+    private BigDecimal tax;
+
     private BigDecimal subTotal;
 
     private BigDecimal taxAmount;
