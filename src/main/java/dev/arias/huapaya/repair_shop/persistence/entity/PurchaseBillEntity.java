@@ -1,5 +1,6 @@
 package dev.arias.huapaya.repair_shop.persistence.entity;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -55,6 +56,16 @@ public class PurchaseBillEntity {
     @JsonManagedReference("purchaseBills-Payments")
     private List<PaymentEntity> payments;
 
+    private BigDecimal subTotal;
+
+    private BigDecimal taxAmount;
+
+    private BigDecimal purchaseBillAmount;
+
+    private BigDecimal exchangeRate;
+
+    private BigDecimal tax;
+
     @Column(updatable = false)
     private LocalDateTime createdAt;
 
@@ -67,6 +78,11 @@ public class PurchaseBillEntity {
         this.createdAt = LocalDateTime.now();
         this.updatedAt = LocalDateTime.now();
         this.status = true;
+        this.subTotal = this.getPurchase().getSubTotal();
+        this.taxAmount = this.getPurchase().getTaxAmount();
+        this.purchaseBillAmount = this.getPurchase().getPurchaseAmount();
+        this.exchangeRate = this.getPurchase().getExchangeRate();
+        this.tax = this.getPurchase().getTax();
     }
 
     @PreUpdate

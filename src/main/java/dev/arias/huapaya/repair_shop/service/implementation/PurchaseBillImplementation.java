@@ -8,11 +8,14 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import dev.arias.huapaya.repair_shop.persistence.entity.PurchaseBillEntity;
+import dev.arias.huapaya.repair_shop.persistence.entity.PurchaseEntity;
 import dev.arias.huapaya.repair_shop.persistence.repository.PurchaseBillRepository;
+import dev.arias.huapaya.repair_shop.persistence.repository.PurchaseRepository;
 import dev.arias.huapaya.repair_shop.presentation.dto.main.PageDTO;
 import dev.arias.huapaya.repair_shop.presentation.dto.purchase_bill.PurchaseBIllPaginationDTO;
 import dev.arias.huapaya.repair_shop.presentation.dto.purchase_bill.PurchaseBillCreateDTO;
 import dev.arias.huapaya.repair_shop.presentation.dto.purchase_bill.PurchaseBillFindOneDTO;
+import dev.arias.huapaya.repair_shop.presentation.exception.ExceptionMessage;
 import dev.arias.huapaya.repair_shop.service.interfaces.PurchaseBillService;
 import lombok.AllArgsConstructor;
 
@@ -22,11 +25,20 @@ public class PurchaseBillImplementation implements PurchaseBillService {
 
     private final PurchaseBillRepository repository;
 
+    private final PurchaseRepository purchaseRepository;
+
     @Override
     public PurchaseBillEntity create(PurchaseBillCreateDTO purchaseBill) {
+
+        Optional<PurchaseEntity> purchaseOpt = this.purchaseRepository.findById(purchaseBill.getPurchase().getId());
+
+        if (!purchaseOpt.isPresent()) {
+            throw new ExceptionMessage("Not found purchase id: " + purchaseBill.getPurchase().getId());
+        }
+
         PurchaseBillEntity purchaseBillCreate = PurchaseBillEntity.builder()
                 .document(purchaseBill.getDocument())
-                .purchase(purchaseBill.getPurchase())
+                .purchase(purchaseOpt.get())
                 .serie(purchaseBill.getSerie())
                 .number(purchaseBill.getNumber())
                 .operationDate(purchaseBill.getOperationDate())

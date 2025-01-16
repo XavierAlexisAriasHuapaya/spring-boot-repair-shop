@@ -26,7 +26,7 @@ public class PurchaseBIllPaginationDTO {
 
     private String observation;
 
-    private BigDecimal totalPurchaseAmount;
+    private BigDecimal totalPurchaseBillAmount;
 
     private BigDecimal totalPaid;
 
@@ -45,7 +45,7 @@ public class PurchaseBIllPaginationDTO {
         this.operationDate = purchaseBill.getOperationDate();
         this.observation = purchaseBill.getObservation();
         this.status = purchaseBill.getStatus();
-        this.totalPurchaseAmount = purchaseBill.getPurchase().getPurchaseAmount();
+        this.totalPurchaseBillAmount = purchaseBill.getPurchaseBillAmount();
         if (purchaseBill.getPayments() != null) {
             BigDecimal account = BigDecimal.ZERO;
             for (PaymentEntity payment : purchaseBill.getPayments()) {
@@ -54,10 +54,10 @@ public class PurchaseBIllPaginationDTO {
                 }
             }
             this.totalPaid = account;
-            this.remainingAmount = this.totalPurchaseAmount.subtract(totalPaid);
+            this.remainingAmount = this.totalPurchaseBillAmount.subtract(totalPaid);
         } else {
             this.totalPaid = BigDecimal.ZERO;
-            this.remainingAmount = this.totalPurchaseAmount;
+            this.remainingAmount = this.totalPurchaseBillAmount;
         }
     }
 
