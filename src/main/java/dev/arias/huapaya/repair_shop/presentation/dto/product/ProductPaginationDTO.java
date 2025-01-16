@@ -1,9 +1,7 @@
 package dev.arias.huapaya.repair_shop.presentation.dto.product;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
 
-import dev.arias.huapaya.repair_shop.persistence.entity.MasterDetailEntity;
 import dev.arias.huapaya.repair_shop.persistence.entity.ProductEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -16,11 +14,11 @@ public class ProductPaginationDTO {
 
     private Long id;
 
-    private MasterDetailEntity category;
+    private String category;
 
-    private MasterDetailEntity model;
+    private String model;
 
-    private MasterDetailEntity brand;
+    private String brand;
 
     private String name;
 
@@ -28,19 +26,16 @@ public class ProductPaginationDTO {
 
     private BigDecimal purchasePrice;
 
-    private LocalDateTime updatedAt;
-
     private Boolean status;
 
     public ProductPaginationDTO(ProductEntity product) {
         this.id = product.getId();
-        this.category = product.getCategory();
-        this.model = product.getModel();
-        this.brand = product.getBrand();
+        this.category = product.getCategory().getDescription();
+        this.model = product.getModel().getDescription();
+        this.brand = product.getBrand().getDescription();
         this.name = product.getName();
         this.unitPrice = product.getUnitPrice();
         this.purchasePrice = product.getPurchasePrice();
-        this.updatedAt = product.getUpdatedAt();
         this.status = product.getStatus();
     }
 
