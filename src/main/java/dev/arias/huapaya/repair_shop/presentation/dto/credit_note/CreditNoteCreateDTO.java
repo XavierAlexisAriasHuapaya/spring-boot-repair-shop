@@ -27,12 +27,6 @@ public class CreditNoteCreateDTO {
 
     private MasterDetailEntity typeCreditNote;
 
-    private String serie;
-
-    private Integer number;
-
-    private BigDecimal amount;
-
     private BigDecimal exchangeRate;
 
     private BigDecimal tax;

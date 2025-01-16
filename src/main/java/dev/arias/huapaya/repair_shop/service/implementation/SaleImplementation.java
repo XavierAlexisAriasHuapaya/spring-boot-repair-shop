@@ -91,7 +91,7 @@ public class SaleImplementation implements SaleService {
         if (saleCreate.getId() == 0) {
             throw new ExceptionMessage("Error creating Sale");
         }
-        Optional<MasterDetailEntity> reason = this.masterDetailRepository.findById(26L);
+        Optional<MasterDetailEntity> reason = this.masterDetailRepository.findByDescription("VENTA DE PRODUCTOS");
         MovementCreateDTO movementDto = MovementCreateDTO.builder()
                 .reason(reason.get())
                 .originStore(sale.getStore())

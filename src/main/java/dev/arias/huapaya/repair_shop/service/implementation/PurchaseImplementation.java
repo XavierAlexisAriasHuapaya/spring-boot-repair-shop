@@ -73,7 +73,7 @@ public class PurchaseImplementation implements PurchaseService {
             throw new ExceptionMessage("Error creating Purchase");
         }
 
-        Optional<MasterDetailEntity> reason = this.masterDetailRepository.findById(25L);
+        Optional<MasterDetailEntity> reason = this.masterDetailRepository.findByDescription("COMPRA DIRECTA");
         MovementCreateDTO movementDto = MovementCreateDTO.builder()
                 .supplier(purchase.getSupplier())
                 .reason(reason.get())

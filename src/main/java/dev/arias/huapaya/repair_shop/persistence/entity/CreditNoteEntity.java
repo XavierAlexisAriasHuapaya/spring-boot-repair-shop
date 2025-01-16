@@ -4,7 +4,9 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Optional;
 
+import dev.arias.huapaya.repair_shop.presentation.exception.ExceptionMessage;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -58,7 +60,7 @@ public class CreditNoteEntity {
 
     private String serie;
 
-    private Integer number;
+    private Long number;
 
     private BigDecimal taxAmount;
 
@@ -87,6 +89,7 @@ public class CreditNoteEntity {
         this.updatedAt = LocalDateTime.now();
         this.status = true;
         this.calculateTotals();
+        this.generatedSerieAndNumber();
     }
 
     @PreUpdate
@@ -102,7 +105,23 @@ public class CreditNoteEntity {
             amount = amount.add(quantity.multiply(details.getPrice()).subtract(details.getDiscount()));
         }
         this.amount = amount;
-        this.subTotal = amount.divide(BigDecimal.valueOf(1.18), 2, RoundingMode.HALF_UP);
+        this.subTotal = amount.divide(this.getTax().add(BigDecimal.ONE), 2, RoundingMode.HALF_UP);
         this.taxAmount = this.amount.subtract(this.subTotal);
+    }
+
+    private void generatedSerieAndNumber() {
+        Optional<String> serieOpt = this.getDocument().getDocumentStore().stream()
+                .filter(docStore -> docStore.getStore().getId().equals(this.getStore().getId()))
+                .map(docStore -> docStore.getSerie())
+                .findFirst();
+        Optional<Long> numberOpt = this.getDocument().getDocumentStore().stream()
+                .filter(docStore -> docStore.getStore().getId().equals(this.getStore().getId()))
+                .map(docStore -> docStore.getNumber() + 1)
+                .findFirst();
+        if (!serieOpt.isPresent() || !numberOpt.isPresent()) {
+            throw new ExceptionMessage("Not found serie and number");
+        }
+        this.serie = serieOpt.get();
+        this.number = numberOpt.get();
     }
 }

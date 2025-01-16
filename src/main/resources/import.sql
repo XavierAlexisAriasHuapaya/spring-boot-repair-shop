@@ -84,7 +84,7 @@ INSERT INTO master_details (master_id, description, value) VALUES (14, 'MENU', '
 INSERT INTO masters (description, status) VALUES ('Method Payment', true);
 INSERT INTO master_details (master_id, description, value) VALUES (15, 'EFECTIVO', '');--56
 INSERT INTO master_details (master_id, description, value) VALUES (15, 'TARJETA', '');--57
-INSERT INTO master_details (master_id, description, value) VALUES (15, 'NOTA DE CREDITO', '');--58
+INSERT INTO master_details (master_id, description, value) VALUES (15, 'NOTA DE CREDITO - VENTA', '');--58
 
 INSERT INTO masters (description, status) VALUES ('Type Card', true);
 INSERT INTO master_details (master_id, description, value) VALUES (16, 'TRANFERENCIA INTERBANK', '');--59
@@ -95,6 +95,21 @@ INSERT INTO master_details (master_id, description, value) VALUES (16, 'YAPE', '
 INSERT INTO master_details (master_id, description, value) VALUES (16, 'POS IZIPAY', '');--64
 INSERT INTO master_details (master_id, description, value) VALUES (16, 'POS VENDE MAS', '');--65
 INSERT INTO master_details (master_id, description, value) VALUES (16, 'MASTERCARD', '');--66
+
+INSERT INTO masters (description, status) VALUES ('Type Credit Note', true);
+INSERT INTO master_details (master_id, description, value) VALUES (17, 'AJUSTES - MONTOS Y/O FECHAS DE PAGO', '');--67
+INSERT INTO master_details (master_id, description, value) VALUES (17, 'AJUSTES AFECTOS AL IVAP', '');--68
+INSERT INTO master_details (master_id, description, value) VALUES (17, 'AJUSTES DE OPERACIONES DE EXPORTACION', '');--69
+INSERT INTO master_details (master_id, description, value) VALUES (17, 'ANULACION DE LA OPERACION', '');--70
+INSERT INTO master_details (master_id, description, value) VALUES (17, 'ANULACION POR ERROR DE RUC', '');--71
+INSERT INTO master_details (master_id, description, value) VALUES (17, 'BONIFICACION', '');--72
+INSERT INTO master_details (master_id, description, value) VALUES (17, 'CORRECCION POR ERROR EN LA DESCRIPCION', '');--73
+INSERT INTO master_details (master_id, description, value) VALUES (17, 'DESCUENTO GLOBAL', '');--74
+INSERT INTO master_details (master_id, description, value) VALUES (17, 'DESCUENTO POR ITEM', '');--75
+INSERT INTO master_details (master_id, description, value) VALUES (17, 'DEVOLUCION POR ITEM', '');--76
+INSERT INTO master_details (master_id, description, value) VALUES (17, 'DEVOLUCION TOTAL', '');--77
+INSERT INTO master_details (master_id, description, value) VALUES (17, 'DESMINUCION EN EL VALOR', '');--78
+INSERT INTO master_details (master_id, description, value) VALUES (17, 'OTROS CONCEPTOS', '');--79
 
 INSERT INTO business (country_id, company_name, phone, address, created_at, updated_at, status) VALUES (1, 'Digital Perú A&H', '989854252', 'Jr. Bolognesi', '2024-12-05 16:52:45.436', '2024-12-05 16:52:45.436', true);
 
@@ -118,6 +133,10 @@ INSERT INTO documents (name, abbreviation, sale, bill, created_at, updated_at, s
 INSERT INTO documents (name, abbreviation, sale, bill, created_at, updated_at, status) VALUES ('FACTURA ELECTRONICA VENTA', 'FV', false, true, '2024-12-05 16:52:45.436', '2024-12-05 16:52:45.436', true);
 INSERT INTO document_stores (document_id, store_id, serie, number, created_at, updated_at, status) VALUES (4, 1, 'F001', 0, '2024-12-05 16:52:45.436', '2024-12-05 16:52:45.436', true);
 INSERT INTO document_stores (document_id, store_id, serie, number, created_at, updated_at, status) VALUES (4, 2, 'F002', 0, '2024-12-05 16:52:45.436', '2024-12-05 16:52:45.436', true);
+
+INSERT INTO documents (name, abbreviation, sale, bill, created_at, updated_at, status) VALUES ('NOTE DE CREDITO', 'NC', true, true, '2024-12-05 16:52:45.436', '2024-12-05 16:52:45.436', true);
+INSERT INTO document_stores (document_id, store_id, serie, number, created_at, updated_at, status) VALUES (5, 1, 'FC01', 0, '2024-12-05 16:52:45.436', '2024-12-05 16:52:45.436', true);
+INSERT INTO document_stores (document_id, store_id, serie, number, created_at, updated_at, status) VALUES (5, 2, 'FC02', 0, '2024-12-05 16:52:45.436', '2024-12-05 16:52:45.436', true);
 
 
 INSERT INTO clients (type_person_id, gender_id, identity_number, first_name, last_name, brith_or_anniversary, address, phone, email, occupation, observation, created_at, updated_at, status) VALUES (7, 9, '15415874', 'Manuel Alberto', 'Zevallos Casas', '1984-01-15', null, null, null, null, null, '2024-12-05 16:52:45.436', '2024-12-05 16:52:45.436', true);

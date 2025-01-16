@@ -34,7 +34,7 @@ public class CreditNoteFindOneDTO {
 
     private String serie;
 
-    private Integer number;
+    private Long number;
 
     private BigDecimal taxAmount;
 

@@ -9,11 +9,13 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import dev.arias.huapaya.repair_shop.persistence.entity.CreditNoteEntity;
+import dev.arias.huapaya.repair_shop.persistence.entity.DocumentEntity;
 import dev.arias.huapaya.repair_shop.persistence.entity.MasterDetailEntity;
 import dev.arias.huapaya.repair_shop.persistence.entity.MovementEntity;
 import dev.arias.huapaya.repair_shop.persistence.entity.SaleBillEntity;
 import dev.arias.huapaya.repair_shop.persistence.entity.SaleDetailEntity;
 import dev.arias.huapaya.repair_shop.persistence.repository.CreditNoteRepository;
+import dev.arias.huapaya.repair_shop.persistence.repository.DocumentRepository;
 import dev.arias.huapaya.repair_shop.persistence.repository.MasterDetailRepository;
 import dev.arias.huapaya.repair_shop.persistence.repository.SaleBillRepository;
 import dev.arias.huapaya.repair_shop.presentation.dto.credit_note.CreditNoteCreateDTO;
@@ -39,6 +41,8 @@ public class CreditNoteImplementation implements CreditNoteService {
 
     private final SaleBillRepository saleBillRepository;
 
+    private final DocumentRepository documentRepository;
+
     @Override
     public CreditNoteEntity create(CreditNoteCreateDTO creditNote) {
         SaleBillEntity saleBill = this.saleBillRepository.findById(creditNote.getSaleBill().getId()).get();
@@ -52,7 +56,7 @@ public class CreditNoteImplementation implements CreditNoteService {
             inboundList.add(inbound);
         }
 
-        Optional<MasterDetailEntity> reason = this.masterDetailRepository.findById(66L);
+        Optional<MasterDetailEntity> reason = this.masterDetailRepository.findByDescription("NOTA DE CREDITO");
         MovementCreateDTO movementDto = MovementCreateDTO.builder()
                 .reason(reason.get())
                 .originStore(creditNote.getStore())
@@ -62,6 +66,7 @@ public class CreditNoteImplementation implements CreditNoteService {
                 .operationDate(creditNote.getOperationDate())
                 .observation(reason.get().getDescription())
                 .exchangeRate(creditNote.getExchangeRate())
+                .tax(creditNote.getTax())
                 .inboundOutbound(inboundList)
                 .build();
         MovementEntity movement = this.movementService.create(movementDto);
@@ -69,16 +74,19 @@ public class CreditNoteImplementation implements CreditNoteService {
             throw new ExceptionMessage("Error creating Credit Note Movement");
         }
 
+        Optional<DocumentEntity> documentOpt = this.documentRepository.findById(creditNote.getDocument().getId());
+
+        if (!documentOpt.isPresent()) {
+            throw new ExceptionMessage("Not found document id: " + creditNote.getDocument().getId());
+        }
+
         CreditNoteEntity creditNoteCreate = CreditNoteEntity.builder()
-                .document(creditNote.getDocument())
+                .document(documentOpt.get())
                 .saleBill(saleBill)
                 .movement(movement)
                 .client(creditNote.getClient())
                 .store(creditNote.getStore())
                 .typeCreditNote(creditNote.getTypeCreditNote())
-                .serie(creditNote.getSerie())
-                .number(creditNote.getNumber())
-                .amount(creditNote.getAmount())
                 .exchangeRate(creditNote.getExchangeRate())
                 .tax(creditNote.getTax())
                 .operationDate(creditNote.getOperationDate())
