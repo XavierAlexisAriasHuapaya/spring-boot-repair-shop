@@ -31,7 +31,7 @@ public class MasterEntity {
 
     private String description;
 
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
+    @OneToMany(fetch = FetchType.EAGER, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
     @JoinColumn(name = "masterId")
     private List<MasterDetailEntity> master_details;
 
