@@ -1,14 +1,19 @@
 package dev.arias.huapaya.repair_shop.service.implementation;
 
+import java.util.List;
 import java.util.Optional;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import dev.arias.huapaya.repair_shop.persistence.entity.MasterDetailEntity;
 import dev.arias.huapaya.repair_shop.persistence.entity.MasterEntity;
 import dev.arias.huapaya.repair_shop.persistence.repository.MasterDetailRepository;
 import dev.arias.huapaya.repair_shop.persistence.repository.MasterRepository;
+import dev.arias.huapaya.repair_shop.presentation.dto.main.PageDTO;
 import dev.arias.huapaya.repair_shop.presentation.dto.master_detail.MasterDetailCreateDTO;
+import dev.arias.huapaya.repair_shop.presentation.dto.master_detail.MasterDetailPaginationDTO;
 import dev.arias.huapaya.repair_shop.presentation.dto.master_detail.MasterDetailUpdateDTO;
 import dev.arias.huapaya.repair_shop.presentation.exception.ExceptionMessage;
 import dev.arias.huapaya.repair_shop.service.interfaces.MasterDetailService;
@@ -57,6 +62,16 @@ public class MasterDetailImplementation implements MasterDetailService {
                 .value(data.getValue().toUpperCase())
                 .build();
         return this.detailRepository.save(masterDetailEntity);
+    }
+
+    @Override
+    public PageDTO<MasterDetailPaginationDTO> pagination(Long id, Pageable pageable) {
+        Page<MasterDetailEntity> detailPage = this.detailRepository.findByMasterId(id, pageable);
+        List<MasterDetailPaginationDTO> detailDTO = detailPage.getContent()
+                .stream()
+                .map(detail -> new MasterDetailPaginationDTO(detail))
+                .toList();
+        return new PageDTO<>(detailDTO, detailPage.getNumber(), detailPage.getSize(), detailPage.getTotalElements());
     }
 
 }
