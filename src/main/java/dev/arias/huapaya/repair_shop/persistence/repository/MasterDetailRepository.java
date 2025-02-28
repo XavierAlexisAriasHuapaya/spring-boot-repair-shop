@@ -14,6 +14,6 @@ public interface MasterDetailRepository extends JpaRepository<MasterDetailEntity
 
     public Optional<MasterDetailEntity> findByDescription(String description);
 
-    public Page<MasterDetailEntity> findByMasterId(Long id, Pageable pageable);
+    public Page<MasterDetailEntity> findByMaster_Id(Long id, Pageable pageable);
 
 }

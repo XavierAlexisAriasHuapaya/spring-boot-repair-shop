@@ -1,6 +1,7 @@
 package dev.arias.huapaya.repair_shop.persistence.entity;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -24,8 +25,8 @@ public class MasterDetailEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "masterId", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY) // Lazy para mejorar rendimiento en paginación
+    @JoinColumn(name = "master_id", nullable = false) // Agrega la FK correctamente
     private MasterEntity master;
 
     private String description;

@@ -42,6 +42,7 @@ public class MasterDetailImplementation implements MasterDetailService {
             throw new ExceptionMessage("Duplicate detail");
         }
         MasterDetailEntity masterDetailEntity = MasterDetailEntity.builder()
+                .master(master)
                 .description(data.getDescription().toUpperCase())
                 .value(data.getValue().toUpperCase())
                 .build();
@@ -56,8 +57,10 @@ public class MasterDetailImplementation implements MasterDetailService {
         if (!masterDetailOpt.isPresent()) {
             throw new ExceptionMessage("Not found master detail");
         }
+        MasterEntity master = masterDetailOpt.get().getMaster();
         MasterDetailEntity masterDetailEntity = MasterDetailEntity.builder()
                 .id(id)
+                .master(master)
                 .description(data.getDescription().toUpperCase())
                 .value(data.getValue().toUpperCase())
                 .build();
@@ -66,7 +69,7 @@ public class MasterDetailImplementation implements MasterDetailService {
 
     @Override
     public PageDTO<MasterDetailPaginationDTO> pagination(Long id, Pageable pageable) {
-        Page<MasterDetailEntity> detailPage = this.detailRepository.findByMasterId(id, pageable);
+        Page<MasterDetailEntity> detailPage = this.detailRepository.findByMaster_Id(id, pageable);
         List<MasterDetailPaginationDTO> detailDTO = detailPage.getContent()
                 .stream()
                 .map(detail -> new MasterDetailPaginationDTO(detail))
