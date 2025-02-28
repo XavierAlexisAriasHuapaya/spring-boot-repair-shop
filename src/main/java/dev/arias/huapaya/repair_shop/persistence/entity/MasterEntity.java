@@ -32,7 +32,7 @@ public class MasterEntity {
     @OneToMany(mappedBy = "master", cascade = { CascadeType.PERSIST, CascadeType.MERGE })
     private List<MasterDetailEntity> master_details;
 
-    private boolean status;
+    private Boolean status;
 
     @PrePersist
     private void prePersist() {

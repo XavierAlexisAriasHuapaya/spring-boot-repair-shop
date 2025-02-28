@@ -1,5 +1,7 @@
 package dev.arias.huapaya.repair_shop.persistence.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -25,8 +27,9 @@ public class MasterDetailEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY) // Lazy para mejorar rendimiento en paginación
-    @JoinColumn(name = "master_id", nullable = false) // Agrega la FK correctamente
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "master_id", nullable = false)
+    @JsonBackReference("master-details")
     private MasterEntity master;
 
     private String description;
