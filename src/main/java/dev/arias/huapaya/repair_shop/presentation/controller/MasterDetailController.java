@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import dev.arias.huapaya.repair_shop.presentation.dto.main.PageDTO;
 import dev.arias.huapaya.repair_shop.presentation.dto.master_detail.MasterDetailCreateDTO;
+import dev.arias.huapaya.repair_shop.presentation.dto.master_detail.MasterDetailFindOneDTO;
 import dev.arias.huapaya.repair_shop.presentation.dto.master_detail.MasterDetailPaginationDTO;
 import dev.arias.huapaya.repair_shop.presentation.dto.master_detail.MasterDetailUpdateDTO;
 import dev.arias.huapaya.repair_shop.presentation.exception.ExceptionMessage;
@@ -58,6 +59,12 @@ public class MasterDetailController {
     public ResponseEntity<?> pagination(@PathVariable Long id, Pageable pageable) {
         PageDTO<MasterDetailPaginationDTO> pagination = this.service.pagination(id, pageable);
         return new ResponseEntity<>(pagination, HttpStatus.OK);
+    }
+
+    @GetMapping(path = "{id}")
+    public ResponseEntity<?> findById(@PathVariable Long id) {
+        MasterDetailFindOneDTO masterDetail = this.service.findById(id);
+        return new ResponseEntity<>(masterDetail, HttpStatus.OK);
     }
 
 }

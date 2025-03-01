@@ -13,6 +13,7 @@ import dev.arias.huapaya.repair_shop.persistence.repository.MasterDetailReposito
 import dev.arias.huapaya.repair_shop.persistence.repository.MasterRepository;
 import dev.arias.huapaya.repair_shop.presentation.dto.main.PageDTO;
 import dev.arias.huapaya.repair_shop.presentation.dto.master_detail.MasterDetailCreateDTO;
+import dev.arias.huapaya.repair_shop.presentation.dto.master_detail.MasterDetailFindOneDTO;
 import dev.arias.huapaya.repair_shop.presentation.dto.master_detail.MasterDetailPaginationDTO;
 import dev.arias.huapaya.repair_shop.presentation.dto.master_detail.MasterDetailUpdateDTO;
 import dev.arias.huapaya.repair_shop.presentation.exception.ExceptionMessage;
@@ -75,6 +76,21 @@ public class MasterDetailImplementation implements MasterDetailService {
                 .map(detail -> new MasterDetailPaginationDTO(detail))
                 .toList();
         return new PageDTO<>(detailDTO, detailPage.getNumber(), detailPage.getSize(), detailPage.getTotalElements());
+    }
+
+    @Override
+    public MasterDetailFindOneDTO findById(Long id) {
+        Optional<MasterDetailEntity> masterDetailOpt = this.detailRepository.findById(id);
+        if (!masterDetailOpt.isPresent()) {
+            throw new ExceptionMessage("Not found master detail");
+        }
+        MasterDetailEntity masterDetail = masterDetailOpt.get();
+        MasterDetailFindOneDTO masterDetailDTO = MasterDetailFindOneDTO.builder()
+                .id(id)
+                .description(masterDetail.getDescription())
+                .value(masterDetail.getValue())
+                .build();
+        return masterDetailDTO;
     }
 
 }
