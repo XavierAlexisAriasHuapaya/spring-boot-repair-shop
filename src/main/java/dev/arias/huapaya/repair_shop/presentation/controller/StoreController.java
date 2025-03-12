@@ -1,5 +1,7 @@
 package dev.arias.huapaya.repair_shop.presentation.controller;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -10,10 +12,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
+import dev.arias.huapaya.repair_shop.persistence.entity.MasterDetailEntity;
 import dev.arias.huapaya.repair_shop.presentation.dto.main.PageDTO;
 import dev.arias.huapaya.repair_shop.presentation.dto.store.StoreCreateDTO;
 import dev.arias.huapaya.repair_shop.presentation.dto.store.StoreFindOneDTO;
@@ -29,10 +33,35 @@ public class StoreController {
 
     private final StoreService service;
 
+    private final String UPLOAD_DIR = "F:\\upload\\";
+
     @PostMapping
-    public ResponseEntity<?> create(@RequestBody StoreCreateDTO create) {
+    public ResponseEntity<?> create(@RequestParam(required = false) MultipartFile file,
+            @RequestParam Long currency, @RequestParam String name,
+            @RequestParam String address, @RequestParam String phone,
+            @RequestParam String logo)
+            throws IllegalStateException, IOException {
+        MasterDetailEntity detailCurrency = MasterDetailEntity.builder()
+                .id(currency)
+                .build();
+        StoreCreateDTO dtoStoreCreate = StoreCreateDTO.builder()
+                .currency(detailCurrency)
+                .name(name)
+                .address(address)
+                .phone(phone)
+                .logo(logo)
+                .build();
         Map<String, Object> response = new HashMap<>();
-        this.service.create(create);
+        if (!logo.equals("")) {
+            File uploadDir = new File(UPLOAD_DIR);
+            if (!uploadDir.exists()) {
+                uploadDir.mkdir();
+            }
+            String fileName = logo;
+            File destinationFile = new File(this.UPLOAD_DIR + fileName);
+            file.transferTo(destinationFile);
+        }
+        this.service.create(dtoStoreCreate);
         response.put("message", "successfully created");
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
@@ -50,9 +79,35 @@ public class StoreController {
     }
 
     @PutMapping(path = "{id}")
-    public ResponseEntity<?> update(@RequestBody StoreUpdateDTO store, @PathVariable Long id) {
+    // public ResponseEntity<?> update(@RequestBody StoreUpdateDTO store,
+    // @PathVariable Long id) {
+    public ResponseEntity<?> update(@PathVariable Long id, @RequestParam(required = false) MultipartFile file,
+            @RequestParam Long currency, @RequestParam String name,
+            @RequestParam String address, @RequestParam String phone,
+            @RequestParam String logo)
+            throws IllegalStateException, IOException {
         Map<String, Object> response = new HashMap<>();
-        this.service.update(store, id);
+
+        MasterDetailEntity detailCurrency = MasterDetailEntity.builder()
+                .id(currency)
+                .build();
+        StoreUpdateDTO dtoStoreUpdate = StoreUpdateDTO.builder()
+                .currency(detailCurrency)
+                .name(name)
+                .address(address)
+                .phone(phone)
+                .logo(logo)
+                .build();
+        if (!logo.equals("")) {
+            File uploadDir = new File(UPLOAD_DIR);
+            if (!uploadDir.exists()) {
+                uploadDir.mkdir();
+            }
+            String fileName = logo;
+            File destinationFile = new File(this.UPLOAD_DIR + fileName);
+            file.transferTo(destinationFile);
+        }
+        this.service.update(dtoStoreUpdate, id);
         response.put("message", "successfully updated");
         return new ResponseEntity<>(response, HttpStatus.OK);
     }

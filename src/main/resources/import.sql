@@ -113,8 +113,17 @@ INSERT INTO master_details (master_id, description, value) VALUES (17, 'OTROS CO
 
 INSERT INTO business (country_id, company_name, phone, address, created_at, updated_at, status) VALUES (1, 'Digital Perú A&H', '989854252', 'Jr. Bolognesi', '2024-12-05 16:52:45.436', '2024-12-05 16:52:45.436', true);
 
-INSERT INTO roles (description, created_at, updated_at, status) VALUES ('ADMINISTRATOR', '2024-12-05 16:52:45.436', '2024-12-05 16:52:45.436', true);
-INSERT INTO roles (description, created_at, updated_at, status) VALUES ('TECHNICAL', '2024-12-05 16:52:45.436', '2024-12-05 16:52:45.436', true);
+INSERT INTO roles (description, created_at, updated_at, status) VALUES ('Administrator', '2024-12-05 16:52:45.436', '2024-12-05 16:52:45.436', true);
+INSERT INTO roles (description, created_at, updated_at, status) VALUES ('Sales Manager', '2024-12-05 16:52:45.436', '2024-12-05 16:52:45.436', true);
+INSERT INTO roles (description, created_at, updated_at, status) VALUES ('Purchasing Manager', '2024-12-05 16:52:45.436', '2024-12-05 16:52:45.436', true);
+INSERT INTO roles (description, created_at, updated_at, status) VALUES ('Inventory Manager', '2024-12-05 16:52:45.436', '2024-12-05 16:52:45.436', true);
+INSERT INTO roles (description, created_at, updated_at, status) VALUES ('Cashier', '2024-12-05 16:52:45.436', '2024-12-05 16:52:45.436', true);
+INSERT INTO roles (description, created_at, updated_at, status) VALUES ('Logistics', '2024-12-05 16:52:45.436', '2024-12-05 16:52:45.436', true);
+INSERT INTO roles (description, created_at, updated_at, status) VALUES ('Sales', '2024-12-05 16:52:45.436', '2024-12-05 16:52:45.436', true);
+INSERT INTO roles (description, created_at, updated_at, status) VALUES ('Salesperson', '2024-12-05 16:52:45.436', '2024-12-05 16:52:45.436', false);
+INSERT INTO roles (description, created_at, updated_at, status) VALUES ('Purchaser', '2024-12-05 16:52:45.436', '2024-12-05 16:52:45.436', true);
+INSERT INTO roles (description, created_at, updated_at, status) VALUES ('Accountant', '2024-12-05 16:52:45.436', '2024-12-05 16:52:45.436', true);
+INSERT INTO roles (description, created_at, updated_at, status) VALUES ('Marketing', '2024-12-05 16:52:45.436', '2024-12-05 16:52:45.436', false);
 
 INSERT INTO stores (currency_id, name, address, phone, logo, created_at, updated_at, status) VALUES (5, 'Lima One', 'Jr. Lima 154', '989748154', null, '2024-12-05 16:52:45.436', '2024-12-05 16:52:45.436', true);
 INSERT INTO stores (currency_id, name, address, phone, logo, created_at, updated_at, status) VALUES (6, 'Ayacucho Two', 'Av. Ayacucho 1874', '947991007', null, '2024-12-05 16:52:45.436', '2024-12-05 16:52:45.436', true);
