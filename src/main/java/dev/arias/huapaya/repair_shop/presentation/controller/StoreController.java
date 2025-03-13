@@ -2,10 +2,15 @@ package dev.arias.huapaya.repair_shop.presentation.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -35,6 +40,24 @@ public class StoreController {
 
     private final String UPLOAD_DIR = "F:\\upload\\";
 
+    @GetMapping("/file/{filename}")
+    public ResponseEntity<Resource> getFile(@PathVariable String filename) {
+        try {
+            Path filePath = Paths.get(UPLOAD_DIR).resolve(filename).normalize();
+            Resource resource = new UrlResource(filePath.toUri());
+
+            if (resource.exists() || resource.isReadable()) {
+                return ResponseEntity.ok()
+                        .header(HttpHeaders.CONTENT_DISPOSITION, "inline; filename=\"" + resource.getFilename() + "\"")
+                        .body(resource);
+            } else {
+                return ResponseEntity.notFound().build();
+            }
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().build();
+        }
+    }
+
     @PostMapping
     public ResponseEntity<?> create(@RequestParam(required = false) MultipartFile file,
             @RequestParam Long currency, @RequestParam String name,
@@ -58,7 +81,8 @@ public class StoreController {
                 uploadDir.mkdir();
             }
             String fileName = logo;
-            File destinationFile = new File(this.UPLOAD_DIR + fileName);
+            String destination = this.UPLOAD_DIR + fileName;
+            File destinationFile = new File(destination);
             file.transferTo(destinationFile);
         }
         this.service.create(dtoStoreCreate);
