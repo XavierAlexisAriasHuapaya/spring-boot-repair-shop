@@ -21,9 +21,9 @@ public class UserUpdateDTO {
 
     private String email;
 
-    private String name;
+    // private String name;
 
-    private String lastName;
+    // private String lastName;
 
     private RolEntity rol;
 

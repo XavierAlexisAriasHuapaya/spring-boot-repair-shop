@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.core.io.Resource;
@@ -24,6 +25,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import dev.arias.huapaya.repair_shop.persistence.entity.MasterDetailEntity;
 import dev.arias.huapaya.repair_shop.presentation.dto.main.PageDTO;
+import dev.arias.huapaya.repair_shop.presentation.dto.store.StoreAllDTO;
 import dev.arias.huapaya.repair_shop.presentation.dto.store.StoreCreateDTO;
 import dev.arias.huapaya.repair_shop.presentation.dto.store.StoreFindOneDTO;
 import dev.arias.huapaya.repair_shop.presentation.dto.store.StorePaginationDTO;
@@ -96,6 +98,12 @@ public class StoreController {
         return new ResponseEntity<>(pagination, HttpStatus.OK);
     }
 
+    @GetMapping(path = "all")
+    public ResponseEntity<?> findAll() {
+        List<StoreAllDTO> findAll = this.service.findAll();
+        return new ResponseEntity<>(findAll, HttpStatus.OK);
+    }
+
     @GetMapping(path = "{id}")
     public ResponseEntity<?> findOne(@PathVariable Long id) {
         StoreFindOneDTO store = this.service.findOne(id).get();
@@ -103,8 +111,6 @@ public class StoreController {
     }
 
     @PutMapping(path = "{id}")
-    // public ResponseEntity<?> update(@RequestBody StoreUpdateDTO store,
-    // @PathVariable Long id) {
     public ResponseEntity<?> update(@PathVariable Long id, @RequestParam(required = false) MultipartFile file,
             @RequestParam Long currency, @RequestParam String name,
             @RequestParam String address, @RequestParam String phone,

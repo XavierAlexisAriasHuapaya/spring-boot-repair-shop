@@ -35,7 +35,7 @@ public class StorePaginationDTO {
         this.address = store.getAddress();
         this.phone = store.getPhone();
         this.logo = store.getLogo();
-        this.status = store.isStatus();
+        this.status = store.getStatus();
     }
 
 }

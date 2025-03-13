@@ -1,11 +1,13 @@
 package dev.arias.huapaya.repair_shop.service.interfaces;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.domain.Pageable;
 
 import dev.arias.huapaya.repair_shop.persistence.entity.StoreEntity;
 import dev.arias.huapaya.repair_shop.presentation.dto.main.PageDTO;
+import dev.arias.huapaya.repair_shop.presentation.dto.store.StoreAllDTO;
 import dev.arias.huapaya.repair_shop.presentation.dto.store.StoreCreateDTO;
 import dev.arias.huapaya.repair_shop.presentation.dto.store.StoreFindOneDTO;
 import dev.arias.huapaya.repair_shop.presentation.dto.store.StorePaginationDTO;
@@ -20,5 +22,7 @@ public interface StoreService {
     public Optional<StoreFindOneDTO> findOne(Long id);
 
     public PageDTO<StorePaginationDTO> pagination(Pageable pageable);
+
+    public List<StoreAllDTO> findAll();
 
 }

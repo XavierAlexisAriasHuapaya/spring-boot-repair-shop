@@ -2,6 +2,7 @@ package dev.arias.huapaya.repair_shop.service.implementation;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Service;
 import dev.arias.huapaya.repair_shop.persistence.entity.StoreEntity;
 import dev.arias.huapaya.repair_shop.persistence.repository.StoreRepository;
 import dev.arias.huapaya.repair_shop.presentation.dto.main.PageDTO;
+import dev.arias.huapaya.repair_shop.presentation.dto.store.StoreAllDTO;
 import dev.arias.huapaya.repair_shop.presentation.dto.store.StoreCreateDTO;
 import dev.arias.huapaya.repair_shop.presentation.dto.store.StoreFindOneDTO;
 import dev.arias.huapaya.repair_shop.presentation.dto.store.StorePaginationDTO;
@@ -71,6 +73,24 @@ public class StoreImplementation implements StoreService {
                 .map(store -> new StorePaginationDTO(store))
                 .toList();
         return new PageDTO<>(storeDTO, storePage.getNumber(), storePage.getSize(), storePage.getTotalElements());
+    }
+
+    @Override
+    public List<StoreAllDTO> findAll() {
+        List<StoreEntity> storeEntities = this.repository.findAll();
+        List<StoreAllDTO> storeAllDTOs = storeEntities.stream()
+                .map(store -> {
+                    StoreAllDTO dto = StoreAllDTO.builder()
+                            .id(store.getId())
+                            .currency(store.getCurrency())
+                            .name(store.getName())
+                            .address(store.getAddress())
+                            .phone(store.getPhone())
+                            .status(store.getStatus())
+                            .build();
+                    return dto;
+                }).collect(Collectors.toList());
+        return storeAllDTOs;
     }
 
 }
