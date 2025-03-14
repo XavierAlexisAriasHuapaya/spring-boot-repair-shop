@@ -22,6 +22,8 @@ public class StoreAllDTO {
 
     private String phone;
 
+    private String logo;
+
     private boolean status;
 
 }

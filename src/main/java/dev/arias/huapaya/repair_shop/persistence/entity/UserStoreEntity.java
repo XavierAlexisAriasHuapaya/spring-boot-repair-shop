@@ -39,7 +39,7 @@ public class UserStoreEntity {
     private LocalDateTime updatedAt;
 
     private Boolean status;
-
+    
     @PrePersist
     private void PrePersist() {
         this.createdAt = LocalDateTime.now();
