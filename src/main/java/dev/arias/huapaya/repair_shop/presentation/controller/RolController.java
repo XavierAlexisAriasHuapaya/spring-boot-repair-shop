@@ -1,6 +1,7 @@
 package dev.arias.huapaya.repair_shop.presentation.controller;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.data.domain.Pageable;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import dev.arias.huapaya.repair_shop.presentation.dto.main.PageDTO;
+import dev.arias.huapaya.repair_shop.presentation.dto.rol.RolAllDTO;
 import dev.arias.huapaya.repair_shop.presentation.dto.rol.RolCreateDTO;
 import dev.arias.huapaya.repair_shop.presentation.dto.rol.RolFindOneDTO;
 import dev.arias.huapaya.repair_shop.presentation.dto.rol.RolPaginationDTO;
@@ -41,6 +43,12 @@ public class RolController {
     public ResponseEntity<?> pagination(Pageable pageable) {
         PageDTO<RolPaginationDTO> pagination = this.service.pagination(pageable);
         return new ResponseEntity<>(pagination, HttpStatus.OK);
+    }
+
+    @GetMapping(path = "all")
+    public ResponseEntity<?> findAll() {
+        List<RolAllDTO> findAll = this.service.findAll();
+        return new ResponseEntity<>(findAll, HttpStatus.OK);
     }
 
     @GetMapping(path = "{id}")

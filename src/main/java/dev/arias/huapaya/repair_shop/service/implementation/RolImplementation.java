@@ -2,6 +2,7 @@ package dev.arias.huapaya.repair_shop.service.implementation;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -11,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import dev.arias.huapaya.repair_shop.persistence.entity.RolEntity;
 import dev.arias.huapaya.repair_shop.persistence.repository.RolRepository;
 import dev.arias.huapaya.repair_shop.presentation.dto.main.PageDTO;
+import dev.arias.huapaya.repair_shop.presentation.dto.rol.RolAllDTO;
 import dev.arias.huapaya.repair_shop.presentation.dto.rol.RolCreateDTO;
 import dev.arias.huapaya.repair_shop.presentation.dto.rol.RolFindOneDTO;
 import dev.arias.huapaya.repair_shop.presentation.dto.rol.RolPaginationDTO;
@@ -65,6 +67,21 @@ public class RolImplementation implements RolService {
                 .map(rol -> new RolPaginationDTO(rol))
                 .toList();
         return new PageDTO<>(dtoPage, rolPage.getNumber(), rolPage.getSize(), rolPage.getTotalElements());
+    }
+
+    @Override
+    public List<RolAllDTO> findAll() {
+        List<RolEntity> rolEntities = this.repository.findAll();
+        List<RolAllDTO> rolAllDTOs = rolEntities.stream()
+                .map(rol -> {
+                    RolAllDTO dto = RolAllDTO.builder()
+                            .id(rol.getId())
+                            .description(rol.getDescription())
+                            .status(rol.getStatus())
+                            .build();
+                    return dto;
+                }).collect(Collectors.toList());
+        return rolAllDTOs;
     }
 
 }
