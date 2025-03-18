@@ -8,9 +8,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -44,7 +44,7 @@ public class DocumentController {
         return new ResponseEntity<>(document, HttpStatus.OK);
     }
 
-    @PutMapping(path = "{id}")
+    @PatchMapping(path = "{id}")
     public ResponseEntity<?> update(@RequestBody DocumentUpdateDTO document, @PathVariable Long id) {
         Map<String, Object> response = new HashMap<>();
         this.service.update(document, id);

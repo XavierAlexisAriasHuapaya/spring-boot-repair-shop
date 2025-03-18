@@ -90,16 +90,18 @@ public class DocumentImplementation implements DocumentService {
     public DocumentEntity update(DocumentUpdateDTO document, Long id) {
         DocumentEntity documentUpdate = this.repository.findById(id).get();
         List<DocumentStoreEntity> documentStoreEntities = new ArrayList<>();
-        for (DocumentStoreUpdateDTO documentStore : document.getDocumentStore()) {
-            DocumentStoreEntity updatedDocumentStore = new DocumentStoreEntity();
-            updatedDocumentStore.setStore(documentStore.getStore());
-            updatedDocumentStore.setSerie(documentStore.getSerie());
-            updatedDocumentStore.setNumber(documentStore.getNumber());
-            documentStoreEntities.add(updatedDocumentStore);
+        if (document.getDocumentStore().size() > 0) {
+            for (DocumentStoreUpdateDTO documentStore : document.getDocumentStore()) {
+                DocumentStoreEntity updatedDocumentStore = new DocumentStoreEntity();
+                updatedDocumentStore.setStore(documentStore.getStore());
+                updatedDocumentStore.setSerie(documentStore.getSerie());
+                updatedDocumentStore.setNumber(documentStore.getNumber());
+                documentStoreEntities.add(updatedDocumentStore);
+            }
+            documentUpdate.setDocumentStore(documentStoreEntities);
         }
         documentUpdate.setName(document.getName());
         documentUpdate.setAbbreviation(document.getAbbreviation());
-        documentUpdate.setDocumentStore(documentStoreEntities);
         documentUpdate.setSale(document.getSale());
         documentUpdate.setBill(document.getBill());
         return this.repository.save(documentUpdate);
