@@ -2,6 +2,9 @@ package dev.arias.huapaya.repair_shop.persistence.entity;
 
 import java.time.LocalDateTime;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -28,6 +31,11 @@ public class DocumentStoreEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @JsonBackReference
+    @ManyToOne
+    @JoinColumn(name = "documentId")
+    private DocumentEntity document;
+
     @ManyToOne
     @JoinColumn(name = "storeId")
     private StoreEntity store;
@@ -36,6 +44,7 @@ public class DocumentStoreEntity {
 
     private Long number;
 
+    @Column(updatable = false)
     private LocalDateTime createdAt;
 
     private LocalDateTime updatedAt;

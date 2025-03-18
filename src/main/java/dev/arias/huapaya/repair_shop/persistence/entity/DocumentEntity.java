@@ -3,6 +3,8 @@ package dev.arias.huapaya.repair_shop.persistence.entity;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -35,6 +37,7 @@ public class DocumentEntity {
 
     private String abbreviation;
 
+    @JsonManagedReference
     @OneToMany(cascade = { CascadeType.MERGE, CascadeType.PERSIST }, fetch = FetchType.EAGER)
     @JoinColumn(name = "documentId", nullable = true)
     private List<DocumentStoreEntity> documentStore;
