@@ -32,6 +32,8 @@ public class ClientUpdateDTO {
 
     private String email;
 
+    private String web;
+
     private String occupation;
 
     private String observation;

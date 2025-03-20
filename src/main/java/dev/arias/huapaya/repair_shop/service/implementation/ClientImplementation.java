@@ -35,6 +35,7 @@ public class ClientImplementation implements ClientService {
                 .address(client.getAddress())
                 .phone(client.getPhone())
                 .email(client.getEmail())
+                .web(client.getWeb())
                 .occupation(client.getOccupation())
                 .observation(client.getObservation())
                 .build();
@@ -59,6 +60,7 @@ public class ClientImplementation implements ClientService {
                 .address(client.getAddress())
                 .phone(client.getPhone())
                 .email(client.getEmail())
+                .web(client.getWeb())
                 .occupation(client.getOccupation())
                 .observation(client.getObservation())
                 .createdAt(client.getCreatedAt())
@@ -80,6 +82,7 @@ public class ClientImplementation implements ClientService {
         clientFindOne.setAddress(client.getAddress());
         clientFindOne.setPhone(client.getPhone());
         clientFindOne.setEmail(client.getEmail());
+        clientFindOne.setWeb(client.getWeb());
         clientFindOne.setOccupation(client.getOccupation());
         clientFindOne.setObservation(client.getObservation());
         return this.repository.save(clientFindOne);

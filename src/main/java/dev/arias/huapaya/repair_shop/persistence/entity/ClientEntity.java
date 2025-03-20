@@ -51,6 +51,8 @@ public class ClientEntity {
 
     private String email;
 
+    private String web;
+
     private String occupation;
 
     private String observation;
