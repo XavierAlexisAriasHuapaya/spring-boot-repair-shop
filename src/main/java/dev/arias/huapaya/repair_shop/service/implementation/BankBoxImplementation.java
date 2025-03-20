@@ -1,5 +1,6 @@
 package dev.arias.huapaya.repair_shop.service.implementation;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -10,10 +11,12 @@ import org.springframework.stereotype.Service;
 import dev.arias.huapaya.repair_shop.persistence.entity.BankBoxEntity;
 import dev.arias.huapaya.repair_shop.persistence.repository.BankBoxRepository;
 import dev.arias.huapaya.repair_shop.presentation.dto.bank_box.BankBoxCreateDTO;
+import dev.arias.huapaya.repair_shop.presentation.dto.bank_box.BankBoxFindAllDTO;
 import dev.arias.huapaya.repair_shop.presentation.dto.bank_box.BankBoxFindOneDTO;
 import dev.arias.huapaya.repair_shop.presentation.dto.bank_box.BankBoxPaginationDTO;
 import dev.arias.huapaya.repair_shop.presentation.dto.bank_box.BankBoxUpdateDTO;
 import dev.arias.huapaya.repair_shop.presentation.dto.main.PageDTO;
+import dev.arias.huapaya.repair_shop.presentation.exception.ExceptionMessage;
 import dev.arias.huapaya.repair_shop.service.interfaces.BankBoxService;
 import lombok.AllArgsConstructor;
 
@@ -71,6 +74,26 @@ public class BankBoxImplementation implements BankBoxService {
                 .map(bankBox -> new BankBoxPaginationDTO(bankBox))
                 .toList();
         return new PageDTO<>(dto, bankBoxPage.getNumber(), bankBoxPage.getSize(), bankBoxPage.getTotalElements());
+    }
+
+    @Override
+    public List<BankBoxFindAllDTO> findAll() {
+        List<BankBoxEntity> bankBoxEntities = this.repository.findAll();
+        if (bankBoxEntities.isEmpty()) {
+            throw new ExceptionMessage("Empty");
+        }
+        List<BankBoxFindAllDTO> findAllDTOs = new ArrayList<>();
+        for (BankBoxEntity item : bankBoxEntities) {
+            BankBoxFindAllDTO dto = BankBoxFindAllDTO.builder()
+                    .id(item.getId())
+                    .store(item.getStore())
+                    .name(item.getName())
+                    .createdAt(item.getCreatedAt())
+                    .status(item.getStatus())
+                    .build();
+            findAllDTOs.add(dto);
+        }
+        return findAllDTOs;
     }
 
 }

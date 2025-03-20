@@ -1,6 +1,7 @@
 package dev.arias.huapaya.repair_shop.presentation.controller;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import dev.arias.huapaya.repair_shop.presentation.dto.bank_box.BankBoxCreateDTO;
+import dev.arias.huapaya.repair_shop.presentation.dto.bank_box.BankBoxFindAllDTO;
 import dev.arias.huapaya.repair_shop.presentation.dto.bank_box.BankBoxFindOneDTO;
 import dev.arias.huapaya.repair_shop.presentation.dto.bank_box.BankBoxPaginationDTO;
 import dev.arias.huapaya.repair_shop.presentation.dto.bank_box.BankBoxUpdateDTO;
@@ -41,6 +43,12 @@ public class BankBoxController {
     @GetMapping(path = "{id}")
     public ResponseEntity<?> findOne(@PathVariable Long id) {
         Optional<BankBoxFindOneDTO> bankBox = this.service.findOne(id);
+        return new ResponseEntity<>(bankBox, HttpStatus.OK);
+    }
+
+    @GetMapping()
+    public ResponseEntity<?> findAll() {
+        List<BankBoxFindAllDTO> bankBox = this.service.findAll();
         return new ResponseEntity<>(bankBox, HttpStatus.OK);
     }
 
