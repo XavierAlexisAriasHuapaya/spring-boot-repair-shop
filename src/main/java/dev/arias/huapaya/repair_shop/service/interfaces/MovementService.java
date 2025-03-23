@@ -16,6 +16,6 @@ public interface MovementService {
 
     public Optional<MovementFindOneDTO> findOne(Long id);
 
-    public PageDTO<MovementPaginationDTO> pagination(Pageable pageable);
+    public PageDTO<MovementPaginationDTO> pagination(Pageable pageable, String type);
 
 }

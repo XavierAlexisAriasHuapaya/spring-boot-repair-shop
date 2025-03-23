@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.data.domain.Page;
@@ -356,8 +357,18 @@ public class MovementImplementation implements MovementService {
         }
 
         @Override
-        public PageDTO<MovementPaginationDTO> pagination(Pageable pageable) {
-                Page<MovementEntity> movementPage = this.repository.findAll(pageable);
+        public PageDTO<MovementPaginationDTO> pagination(Pageable pageable, String type) {
+                if (type == null || type.isBlank()) {
+                        throw new ExceptionMessage("The type sent is incorrect");
+                }
+
+                Set<String> validTypes = Set.of("I", "O");
+                String upperType = type.toUpperCase();
+
+                if (!validTypes.contains(upperType)) {
+                        throw new ExceptionMessage("The type send is incorrect");
+                }
+                Page<MovementEntity> movementPage = this.repository.findByReasonValue(upperType, pageable);
                 List<MovementPaginationDTO> dto = movementPage.getContent()
                                 .stream()
                                 .map(movement -> new MovementPaginationDTO(movement))

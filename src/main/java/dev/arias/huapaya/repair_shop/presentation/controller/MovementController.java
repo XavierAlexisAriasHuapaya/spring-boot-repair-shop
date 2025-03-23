@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import dev.arias.huapaya.repair_shop.presentation.dto.main.PageDTO;
@@ -53,9 +54,18 @@ public class MovementController {
     }
 
     @GetMapping(path = "pagination")
-    public ResponseEntity<?> pagination(Pageable pageable) {
-        PageDTO<MovementPaginationDTO> pagination = this.service.pagination(pageable);
-        return new ResponseEntity<>(pagination, HttpStatus.OK);
+    public ResponseEntity<?> pagination(Pageable pageable, @RequestParam(required = false) String type) {
+        Map<String, Object> response = new HashMap<>();
+        try {
+            PageDTO<MovementPaginationDTO> pagination = this.service.pagination(pageable, type);
+            return new ResponseEntity<>(pagination, HttpStatus.OK);
+        } catch (ExceptionMessage e) {
+            response.put("error", e.getMessage());
+            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+        } catch (Exception e) {
+            response.put("error", e.getMessage());
+            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+        }
     }
 
 }
