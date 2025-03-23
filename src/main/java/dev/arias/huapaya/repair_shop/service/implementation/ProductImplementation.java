@@ -158,4 +158,15 @@ public class ProductImplementation implements ProductService {
         return Optional.of(productStoreOpt);
     }
 
+    @Override
+    public PageDTO<ProductPaginationDTO> paginationByName(String name, Pageable pageable) {
+        Page<ProductEntity> productPage = this.repository.findByNameContainingIgnoreCase(name, pageable);
+        List<ProductPaginationDTO> productList = productPage.getContent()
+                .stream()
+                .map(product -> new ProductPaginationDTO(product))
+                .toList();
+        return new PageDTO<>(productList, productPage.getNumber(), productPage.getSize(),
+                productPage.getTotalElements());
+    }
+
 }

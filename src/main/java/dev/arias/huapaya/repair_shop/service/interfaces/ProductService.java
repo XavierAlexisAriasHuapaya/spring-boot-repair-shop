@@ -25,6 +25,8 @@ public interface ProductService {
 
     public PageDTO<ProductPaginationDTO> pagination(Pageable pageable);
 
+    public PageDTO<ProductPaginationDTO> paginationByName(String name, Pageable pageable);
+
     public ProductEntity updateProductMovement(ProductMovementUpdateDTO data, Long id);
 
     public Optional<ProductStoreEntity> findByIdAndProductStore_Store_Id(Long productId, Long storeId);

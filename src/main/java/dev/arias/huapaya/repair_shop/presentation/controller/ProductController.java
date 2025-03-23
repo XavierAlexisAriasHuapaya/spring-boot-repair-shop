@@ -165,4 +165,10 @@ public class ProductController {
         return new ResponseEntity<>(pagination, HttpStatus.OK);
     }
 
+    @GetMapping(path = "pagination/name")
+    public ResponseEntity<?> pagination(@RequestParam(required = false) String name, Pageable pageable) {
+        PageDTO<ProductPaginationDTO> pagination = this.service.paginationByName(name, pageable);
+        return new ResponseEntity<>(pagination, HttpStatus.OK);
+    }
+
 }
